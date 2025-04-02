@@ -1,7 +1,7 @@
 import assert from 'assert';
 
-const to16 = (n: number): string => n.toString(16).padStart(2, '0');
-const isColor = (n: number): boolean => n >= 0 && n <= 255 && Number.isInteger(n);
+const to16 = (n: number) => n.toString(16).padStart(2, '0').toUpperCase();
+const isColor = (n: number) => n >= 0 && n <= 255 && Number.isInteger(n);
 
 /**
  * 转化为小狼毫默认的abgr颜色
