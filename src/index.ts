@@ -21,7 +21,10 @@ const main = () => {
     hilite_padding_x: 10
     hilite_padding_y: 6
     margin_x: 0
-    margin_y: 0`;
+    margin_y: 0
+  'stype/horizontal': true
+  'style/inline_preedit': true
+    `;
   const weaselYaml = schemas + styles;
   console.log(`saving ${WEASEL_CUSTOM}`);
   writeFileSync(join(dist, WEASEL_CUSTOM), weaselYaml);

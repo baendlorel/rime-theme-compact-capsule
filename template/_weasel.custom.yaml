@@ -51,6 +51,8 @@ patch:
     name: '紧凑胶囊红（暗黑）'
     text_color: 0xffffff
   'style/color_scheme': compact_capsule_red_dark
+  'stype/horizontal': true
+  'style/inline_preedit': true
   'style/layout':
     candidate_radius: 8
     corner_radius: 8
