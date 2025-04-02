@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { join } from 'path';
-import { COMPACT_CAPSULE_SCHEMAS } from './schemas';
+import { COMPACT_CAPSULE_SCHEMAS, SCHEMA_NAMES } from './schemas';
 import { schemaToYaml } from './schema-to-yaml';
 
 const main = () => {
@@ -13,6 +13,7 @@ const main = () => {
   }
   const list = COMPACT_CAPSULE_SCHEMAS.map((schema) => schemaToYaml(schema));
   console.log(`total schemas: ${list.length}`);
+  console.log(`generating following schemas :\n  ${SCHEMA_NAMES.join('\n  ')}`);
   const schemas = 'patch:\n' + list.join('');
   const styles = `  'style/layout':
     candidate_radius: 8

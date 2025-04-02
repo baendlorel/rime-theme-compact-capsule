@@ -36,7 +36,7 @@ export const COMPACT_CAPSULE_SCHEMAS = [
     id: 'orange',
     name: '橙',
     hilitedCandidateTextColor: BS.LIGHT,
-    hilitedCandidateBackColor: rgb(239, 108, 0),
+    hilitedCandidateBackColor: rgb(229, 98, 0),
   },
   {
     id: 'yellow',
@@ -57,3 +57,5 @@ export const COMPACT_CAPSULE_SCHEMAS = [
     hilitedCandidateBackColor: BS.SUCCESS,
   },
 ];
+
+export const SCHEMA_NAMES = COMPACT_CAPSULE_SCHEMAS.map((s) => NAME_PRFIX + s.name);
