@@ -14,25 +14,28 @@ const themeColors = (theme: Theme) => {
   let text = '';
   let back = '';
   let candidateText = '';
+  let hilitedLabel = '';
   let hilitedText = '';
   let hilitedBack = '';
   switch (theme) {
     case Theme.LIGHT:
       darkId = '';
       text = BS.DARK;
-      back = rgba(255, 255, 255, 0.9);
+      back = rgba(255, 255, 255, 0.8);
       candidateText = BS.DARK;
+      hilitedLabel = BS.LIGHT_SEMI_TRANS;
       hilitedText = BS.DARK;
-      hilitedBack = rgba(255, 255, 255, 0.9);
+      hilitedBack = rgba(255, 255, 255, 0.8);
       break;
     case Theme.DARK:
       darkId = '_dark';
       darkName = '「暗」';
       text = BS.LIGHT;
-      back = rgba(76, 85, 93, 0.86);
+      back = rgba(76, 85, 93, 0.8);
       candidateText = BS.LIGHT;
+      hilitedLabel = BS.GRAY_SEMI_TRANS;
       hilitedText = BS.LIGHT;
-      hilitedBack = rgba(76, 85, 93, 0.86);
+      hilitedBack = rgba(76, 85, 93, 0.8);
       break;
   }
   return {
@@ -41,6 +44,7 @@ const themeColors = (theme: Theme) => {
     text,
     back,
     candidateText,
+    hilitedLabel,
     hilitedText,
     hilitedBack,
   };
@@ -48,15 +52,25 @@ const themeColors = (theme: Theme) => {
 
 export const schemaToYaml = (s: SchemaConfig) => {
   const _toYaml = (theme: Theme) => {
-    const { darkId, darkName, text, back, candidateText, hilitedText, hilitedBack } =
-      themeColors(theme);
+    const {
+      darkId,
+      darkName,
+      text,
+      back,
+      candidateText,
+      hilitedLabel,
+      hilitedText,
+      hilitedBack,
+    } = themeColors(theme);
     return `  'preset_color_schemes/${ID_PRFIX}${s.id}${darkId}':
     author: '${AUTHOR}'
+    color_format: rgba
     name: '${NAME_PRFIX + s.name + darkName}'
     text_color: ${text}
     back_color: ${back}
     border_color: ${BORDER_COLOR}
     candidate_text_color: ${candidateText}
+    hilited_label_color: ${hilitedLabel}
     hilited_text_color: ${hilitedText}
     hilited_back_color: ${hilitedBack}
     hilited_candidate_text_color: ${s.hilitedCandidateTextColor}

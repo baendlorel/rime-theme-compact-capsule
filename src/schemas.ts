@@ -27,6 +27,18 @@ export const COMPACT_CAPSULE_SCHEMAS = [
     hilitedCandidateBackColor: rgb(16, 119, 208),
   },
   {
+    id: 'cyan',
+    name: '青',
+    hilitedCandidateTextColor: BS.DARK,
+    hilitedCandidateBackColor: rgb(121, 223, 193),
+  },
+  {
+    id: 'sky',
+    name: '天',
+    hilitedCandidateTextColor: BS.DARK,
+    hilitedCandidateBackColor: rgb(110, 223, 246),
+  },
+  {
     id: 'red',
     name: '红',
     hilitedCandidateTextColor: BS.LIGHT,
@@ -49,6 +61,12 @@ export const COMPACT_CAPSULE_SCHEMAS = [
     name: '紫',
     hilitedCandidateTextColor: BS.LIGHT,
     hilitedCandidateBackColor: rgb(111, 46, 242),
+  },
+  {
+    id: 'magenta',
+    name: '品',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: rgb(214, 51, 132),
   },
   {
     id: 'green',

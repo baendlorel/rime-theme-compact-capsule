@@ -16,8 +16,8 @@ export const rgba = (r: number, g: number, b: number, a: number): string => {
   assert.equal(isColor(g), true, `g must be an integer. g = ${g}`);
   assert.equal(isColor(b), true, `b must be an integer. b = ${b}`);
   assert.equal(0 <= a && a <= 1, true, `a must be in 0~1. a = ${a}`);
-  const alpha = a ? to16(Math.round(a * 255)) : '';
-  return `0x${alpha}${to16(b)}${to16(g)}${to16(r)}`;
+  const alpha = to16(Math.round(a * 255));
+  return `0x${to16(r)}${to16(g)}${to16(b)}${alpha}`;
 };
 
 export const rgb = (r: number, g: number, b: number): string => rgba(r, g, b, 1);
@@ -36,6 +36,8 @@ export const BS = {
   BLACK: rgb(0, 0, 0),
   GRAY: rgb(108, 117, 125),
   GRAY_DARK: rgb(52, 58, 64),
+  LIGHT_SEMI_TRANS: rgba(248, 249, 250, 0.5),
+  GRAY_SEMI_TRANS: rgba(108, 117, 125, 0.5),
   GRAY_LIGHT: rgb(248, 249, 250),
   GRAY_100: rgb(255, 255, 255),
   GRAY_200: rgb(233, 236, 239),

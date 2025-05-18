@@ -1,136 +1,238 @@
 patch:
   'preset_color_schemes/compact_capsule_blue':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
     name: '紧凑胶囊蓝'
-    text_color: 0xFF1D1915
-    back_color: 0xE6FFFFFF
-    border_color: 0x000000
-    candidate_text_color: 0xFF1D1915
-    hilited_text_color: 0xFF1D1915
-    hilited_back_color: 0xE6FFFFFF
-    hilited_candidate_text_color: 0xFFFAF9F8
-    hilited_candidate_back_color: 0xFFD07710
+    text_color: 0x15191DFF
+    back_color: 0xFFFFFFCC
+    border_color: 0x00000000
+    candidate_text_color: 0x15191DFF
+    hilited_label_color: 0xF8F9FA80
+    hilited_text_color: 0x15191DFF
+    hilited_back_color: 0xFFFFFFCC
+    hilited_candidate_text_color: 0xF8F9FAFF
+    hilited_candidate_back_color: 0x1077D0FF
   'preset_color_schemes/compact_capsule_blue_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
     name: '紧凑胶囊蓝「暗」'
-    text_color: 0xFFFAF9F8
-    back_color: 0xDB5D554C
-    border_color: 0x000000
-    candidate_text_color: 0xFFFAF9F8
-    hilited_text_color: 0xFFFAF9F8
-    hilited_back_color: 0xDB5D554C
-    hilited_candidate_text_color: 0xFFFAF9F8
-    hilited_candidate_back_color: 0xFFD07710
+    text_color: 0xF8F9FAFF
+    back_color: 0x4C555DCC
+    border_color: 0x00000000
+    candidate_text_color: 0xF8F9FAFF
+    hilited_label_color: 0x6C757D80
+    hilited_text_color: 0xF8F9FAFF
+    hilited_back_color: 0x4C555DCC
+    hilited_candidate_text_color: 0xF8F9FAFF
+    hilited_candidate_back_color: 0x1077D0FF
+  'preset_color_schemes/compact_capsule_cyan':
+    author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
+    name: '紧凑胶囊青'
+    text_color: 0x15191DFF
+    back_color: 0xFFFFFFCC
+    border_color: 0x00000000
+    candidate_text_color: 0x15191DFF
+    hilited_label_color: 0xF8F9FA80
+    hilited_text_color: 0x15191DFF
+    hilited_back_color: 0xFFFFFFCC
+    hilited_candidate_text_color: 0x15191DFF
+    hilited_candidate_back_color: 0x79DFC1FF
+  'preset_color_schemes/compact_capsule_cyan_dark':
+    author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
+    name: '紧凑胶囊青「暗」'
+    text_color: 0xF8F9FAFF
+    back_color: 0x4C555DCC
+    border_color: 0x00000000
+    candidate_text_color: 0xF8F9FAFF
+    hilited_label_color: 0x6C757D80
+    hilited_text_color: 0xF8F9FAFF
+    hilited_back_color: 0x4C555DCC
+    hilited_candidate_text_color: 0x15191DFF
+    hilited_candidate_back_color: 0x79DFC1FF
+  'preset_color_schemes/compact_capsule_sky':
+    author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
+    name: '紧凑胶囊天'
+    text_color: 0x15191DFF
+    back_color: 0xFFFFFFCC
+    border_color: 0x00000000
+    candidate_text_color: 0x15191DFF
+    hilited_label_color: 0xF8F9FA80
+    hilited_text_color: 0x15191DFF
+    hilited_back_color: 0xFFFFFFCC
+    hilited_candidate_text_color: 0x15191DFF
+    hilited_candidate_back_color: 0x6EDFF6FF
+  'preset_color_schemes/compact_capsule_sky_dark':
+    author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
+    name: '紧凑胶囊天「暗」'
+    text_color: 0xF8F9FAFF
+    back_color: 0x4C555DCC
+    border_color: 0x00000000
+    candidate_text_color: 0xF8F9FAFF
+    hilited_label_color: 0x6C757D80
+    hilited_text_color: 0xF8F9FAFF
+    hilited_back_color: 0x4C555DCC
+    hilited_candidate_text_color: 0x15191DFF
+    hilited_candidate_back_color: 0x6EDFF6FF
   'preset_color_schemes/compact_capsule_red':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
     name: '紧凑胶囊红'
-    text_color: 0xFF1D1915
-    back_color: 0xE6FFFFFF
-    border_color: 0x000000
-    candidate_text_color: 0xFF1D1915
-    hilited_text_color: 0xFF1D1915
-    hilited_back_color: 0xE6FFFFFF
-    hilited_candidate_text_color: 0xFFFAF9F8
-    hilited_candidate_back_color: 0xFF4232D2
+    text_color: 0x15191DFF
+    back_color: 0xFFFFFFCC
+    border_color: 0x00000000
+    candidate_text_color: 0x15191DFF
+    hilited_label_color: 0xF8F9FA80
+    hilited_text_color: 0x15191DFF
+    hilited_back_color: 0xFFFFFFCC
+    hilited_candidate_text_color: 0xF8F9FAFF
+    hilited_candidate_back_color: 0xD23242FF
   'preset_color_schemes/compact_capsule_red_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
     name: '紧凑胶囊红「暗」'
-    text_color: 0xFFFAF9F8
-    back_color: 0xDB5D554C
-    border_color: 0x000000
-    candidate_text_color: 0xFFFAF9F8
-    hilited_text_color: 0xFFFAF9F8
-    hilited_back_color: 0xDB5D554C
-    hilited_candidate_text_color: 0xFFFAF9F8
-    hilited_candidate_back_color: 0xFF4232D2
+    text_color: 0xF8F9FAFF
+    back_color: 0x4C555DCC
+    border_color: 0x00000000
+    candidate_text_color: 0xF8F9FAFF
+    hilited_label_color: 0x6C757D80
+    hilited_text_color: 0xF8F9FAFF
+    hilited_back_color: 0x4C555DCC
+    hilited_candidate_text_color: 0xF8F9FAFF
+    hilited_candidate_back_color: 0xD23242FF
   'preset_color_schemes/compact_capsule_orange':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
     name: '紧凑胶囊橙'
-    text_color: 0xFF1D1915
-    back_color: 0xE6FFFFFF
-    border_color: 0x000000
-    candidate_text_color: 0xFF1D1915
-    hilited_text_color: 0xFF1D1915
-    hilited_back_color: 0xE6FFFFFF
-    hilited_candidate_text_color: 0xFFFAF9F8
-    hilited_candidate_back_color: 0xFF0062E5
+    text_color: 0x15191DFF
+    back_color: 0xFFFFFFCC
+    border_color: 0x00000000
+    candidate_text_color: 0x15191DFF
+    hilited_label_color: 0xF8F9FA80
+    hilited_text_color: 0x15191DFF
+    hilited_back_color: 0xFFFFFFCC
+    hilited_candidate_text_color: 0xF8F9FAFF
+    hilited_candidate_back_color: 0xE56200FF
   'preset_color_schemes/compact_capsule_orange_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
     name: '紧凑胶囊橙「暗」'
-    text_color: 0xFFFAF9F8
-    back_color: 0xDB5D554C
-    border_color: 0x000000
-    candidate_text_color: 0xFFFAF9F8
-    hilited_text_color: 0xFFFAF9F8
-    hilited_back_color: 0xDB5D554C
-    hilited_candidate_text_color: 0xFFFAF9F8
-    hilited_candidate_back_color: 0xFF0062E5
+    text_color: 0xF8F9FAFF
+    back_color: 0x4C555DCC
+    border_color: 0x00000000
+    candidate_text_color: 0xF8F9FAFF
+    hilited_label_color: 0x6C757D80
+    hilited_text_color: 0xF8F9FAFF
+    hilited_back_color: 0x4C555DCC
+    hilited_candidate_text_color: 0xF8F9FAFF
+    hilited_candidate_back_color: 0xE56200FF
   'preset_color_schemes/compact_capsule_yellow':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
     name: '紧凑胶囊黄'
-    text_color: 0xFF1D1915
-    back_color: 0xE6FFFFFF
-    border_color: 0x000000
-    candidate_text_color: 0xFF1D1915
-    hilited_text_color: 0xFF1D1915
-    hilited_back_color: 0xE6FFFFFF
-    hilited_candidate_text_color: 0xFF1D1915
-    hilited_candidate_back_color: 0xFF07C1FF
+    text_color: 0x15191DFF
+    back_color: 0xFFFFFFCC
+    border_color: 0x00000000
+    candidate_text_color: 0x15191DFF
+    hilited_label_color: 0xF8F9FA80
+    hilited_text_color: 0x15191DFF
+    hilited_back_color: 0xFFFFFFCC
+    hilited_candidate_text_color: 0x15191DFF
+    hilited_candidate_back_color: 0xFFC107FF
   'preset_color_schemes/compact_capsule_yellow_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
     name: '紧凑胶囊黄「暗」'
-    text_color: 0xFFFAF9F8
-    back_color: 0xDB5D554C
-    border_color: 0x000000
-    candidate_text_color: 0xFFFAF9F8
-    hilited_text_color: 0xFFFAF9F8
-    hilited_back_color: 0xDB5D554C
-    hilited_candidate_text_color: 0xFF1D1915
-    hilited_candidate_back_color: 0xFF07C1FF
+    text_color: 0xF8F9FAFF
+    back_color: 0x4C555DCC
+    border_color: 0x00000000
+    candidate_text_color: 0xF8F9FAFF
+    hilited_label_color: 0x6C757D80
+    hilited_text_color: 0xF8F9FAFF
+    hilited_back_color: 0x4C555DCC
+    hilited_candidate_text_color: 0x15191DFF
+    hilited_candidate_back_color: 0xFFC107FF
   'preset_color_schemes/compact_capsule_purple':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
     name: '紧凑胶囊紫'
-    text_color: 0xFF1D1915
-    back_color: 0xE6FFFFFF
-    border_color: 0x000000
-    candidate_text_color: 0xFF1D1915
-    hilited_text_color: 0xFF1D1915
-    hilited_back_color: 0xE6FFFFFF
-    hilited_candidate_text_color: 0xFFFAF9F8
-    hilited_candidate_back_color: 0xFFF22E6F
+    text_color: 0x15191DFF
+    back_color: 0xFFFFFFCC
+    border_color: 0x00000000
+    candidate_text_color: 0x15191DFF
+    hilited_label_color: 0xF8F9FA80
+    hilited_text_color: 0x15191DFF
+    hilited_back_color: 0xFFFFFFCC
+    hilited_candidate_text_color: 0xF8F9FAFF
+    hilited_candidate_back_color: 0x6F2EF2FF
   'preset_color_schemes/compact_capsule_purple_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
     name: '紧凑胶囊紫「暗」'
-    text_color: 0xFFFAF9F8
-    back_color: 0xDB5D554C
-    border_color: 0x000000
-    candidate_text_color: 0xFFFAF9F8
-    hilited_text_color: 0xFFFAF9F8
-    hilited_back_color: 0xDB5D554C
-    hilited_candidate_text_color: 0xFFFAF9F8
-    hilited_candidate_back_color: 0xFFF22E6F
+    text_color: 0xF8F9FAFF
+    back_color: 0x4C555DCC
+    border_color: 0x00000000
+    candidate_text_color: 0xF8F9FAFF
+    hilited_label_color: 0x6C757D80
+    hilited_text_color: 0xF8F9FAFF
+    hilited_back_color: 0x4C555DCC
+    hilited_candidate_text_color: 0xF8F9FAFF
+    hilited_candidate_back_color: 0x6F2EF2FF
+  'preset_color_schemes/compact_capsule_magenta':
+    author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
+    name: '紧凑胶囊品'
+    text_color: 0x15191DFF
+    back_color: 0xFFFFFFCC
+    border_color: 0x00000000
+    candidate_text_color: 0x15191DFF
+    hilited_label_color: 0xF8F9FA80
+    hilited_text_color: 0x15191DFF
+    hilited_back_color: 0xFFFFFFCC
+    hilited_candidate_text_color: 0xF8F9FAFF
+    hilited_candidate_back_color: 0xD63384FF
+  'preset_color_schemes/compact_capsule_magenta_dark':
+    author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
+    name: '紧凑胶囊品「暗」'
+    text_color: 0xF8F9FAFF
+    back_color: 0x4C555DCC
+    border_color: 0x00000000
+    candidate_text_color: 0xF8F9FAFF
+    hilited_label_color: 0x6C757D80
+    hilited_text_color: 0xF8F9FAFF
+    hilited_back_color: 0x4C555DCC
+    hilited_candidate_text_color: 0xF8F9FAFF
+    hilited_candidate_back_color: 0xD63384FF
   'preset_color_schemes/compact_capsule_green':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
     name: '紧凑胶囊绿'
-    text_color: 0xFF1D1915
-    back_color: 0xE6FFFFFF
-    border_color: 0x000000
-    candidate_text_color: 0xFF1D1915
-    hilited_text_color: 0xFF1D1915
-    hilited_back_color: 0xE6FFFFFF
-    hilited_candidate_text_color: 0xFFFAF9F8
-    hilited_candidate_back_color: 0xFF548719
+    text_color: 0x15191DFF
+    back_color: 0xFFFFFFCC
+    border_color: 0x00000000
+    candidate_text_color: 0x15191DFF
+    hilited_label_color: 0xF8F9FA80
+    hilited_text_color: 0x15191DFF
+    hilited_back_color: 0xFFFFFFCC
+    hilited_candidate_text_color: 0xF8F9FAFF
+    hilited_candidate_back_color: 0x198754FF
   'preset_color_schemes/compact_capsule_green_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
+    color_format: rgba
     name: '紧凑胶囊绿「暗」'
-    text_color: 0xFFFAF9F8
-    back_color: 0xDB5D554C
-    border_color: 0x000000
-    candidate_text_color: 0xFFFAF9F8
-    hilited_text_color: 0xFFFAF9F8
-    hilited_back_color: 0xDB5D554C
-    hilited_candidate_text_color: 0xFFFAF9F8
-    hilited_candidate_back_color: 0xFF548719
+    text_color: 0xF8F9FAFF
+    back_color: 0x4C555DCC
+    border_color: 0x00000000
+    candidate_text_color: 0xF8F9FAFF
+    hilited_label_color: 0x6C757D80
+    hilited_text_color: 0xF8F9FAFF
+    hilited_back_color: 0x4C555DCC
+    hilited_candidate_text_color: 0xF8F9FAFF
+    hilited_candidate_back_color: 0x198754FF
   'style/layout':
     candidate_radius: 8
     corner_radius: 8
