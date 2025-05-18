@@ -11,7 +11,7 @@ patch:
     hilited_text_color: 0x15191DFF
     hilited_back_color: 0xFFFFFFCC
     hilited_candidate_text_color: 0xF8F9FAFF
-    hilited_candidate_back_color: 0x1077D0FF
+    hilited_candidate_back_color: 0x1077D0CC
   'preset_color_schemes/compact_capsule_blue_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -24,7 +24,7 @@ patch:
     hilited_text_color: 0xF8F9FAFF
     hilited_back_color: 0x4C555DCC
     hilited_candidate_text_color: 0xF8F9FAFF
-    hilited_candidate_back_color: 0x1077D0FF
+    hilited_candidate_back_color: 0x1077D0CC
   'preset_color_schemes/compact_capsule_cyan':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -37,7 +37,7 @@ patch:
     hilited_text_color: 0x15191DFF
     hilited_back_color: 0xFFFFFFCC
     hilited_candidate_text_color: 0x15191DFF
-    hilited_candidate_back_color: 0x79DFC1FF
+    hilited_candidate_back_color: 0x79DFC1CC
   'preset_color_schemes/compact_capsule_cyan_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -50,7 +50,7 @@ patch:
     hilited_text_color: 0xF8F9FAFF
     hilited_back_color: 0x4C555DCC
     hilited_candidate_text_color: 0x15191DFF
-    hilited_candidate_back_color: 0x79DFC1FF
+    hilited_candidate_back_color: 0x79DFC1CC
   'preset_color_schemes/compact_capsule_sky':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -63,7 +63,7 @@ patch:
     hilited_text_color: 0x15191DFF
     hilited_back_color: 0xFFFFFFCC
     hilited_candidate_text_color: 0x15191DFF
-    hilited_candidate_back_color: 0x6EDFF6FF
+    hilited_candidate_back_color: 0x6EDFF6CC
   'preset_color_schemes/compact_capsule_sky_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -76,7 +76,7 @@ patch:
     hilited_text_color: 0xF8F9FAFF
     hilited_back_color: 0x4C555DCC
     hilited_candidate_text_color: 0x15191DFF
-    hilited_candidate_back_color: 0x6EDFF6FF
+    hilited_candidate_back_color: 0x6EDFF6CC
   'preset_color_schemes/compact_capsule_red':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -89,7 +89,7 @@ patch:
     hilited_text_color: 0x15191DFF
     hilited_back_color: 0xFFFFFFCC
     hilited_candidate_text_color: 0xF8F9FAFF
-    hilited_candidate_back_color: 0xD23242FF
+    hilited_candidate_back_color: 0xD23242CC
   'preset_color_schemes/compact_capsule_red_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -102,7 +102,7 @@ patch:
     hilited_text_color: 0xF8F9FAFF
     hilited_back_color: 0x4C555DCC
     hilited_candidate_text_color: 0xF8F9FAFF
-    hilited_candidate_back_color: 0xD23242FF
+    hilited_candidate_back_color: 0xD23242CC
   'preset_color_schemes/compact_capsule_orange':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -115,7 +115,7 @@ patch:
     hilited_text_color: 0x15191DFF
     hilited_back_color: 0xFFFFFFCC
     hilited_candidate_text_color: 0xF8F9FAFF
-    hilited_candidate_back_color: 0xE56200FF
+    hilited_candidate_back_color: 0xE56200CC
   'preset_color_schemes/compact_capsule_orange_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -128,7 +128,7 @@ patch:
     hilited_text_color: 0xF8F9FAFF
     hilited_back_color: 0x4C555DCC
     hilited_candidate_text_color: 0xF8F9FAFF
-    hilited_candidate_back_color: 0xE56200FF
+    hilited_candidate_back_color: 0xE56200CC
   'preset_color_schemes/compact_capsule_yellow':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -141,7 +141,7 @@ patch:
     hilited_text_color: 0x15191DFF
     hilited_back_color: 0xFFFFFFCC
     hilited_candidate_text_color: 0x15191DFF
-    hilited_candidate_back_color: 0xFFC107FF
+    hilited_candidate_back_color: 0xFFC107CC
   'preset_color_schemes/compact_capsule_yellow_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -154,7 +154,7 @@ patch:
     hilited_text_color: 0xF8F9FAFF
     hilited_back_color: 0x4C555DCC
     hilited_candidate_text_color: 0x15191DFF
-    hilited_candidate_back_color: 0xFFC107FF
+    hilited_candidate_back_color: 0xFFC107CC
   'preset_color_schemes/compact_capsule_purple':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -167,7 +167,7 @@ patch:
     hilited_text_color: 0x15191DFF
     hilited_back_color: 0xFFFFFFCC
     hilited_candidate_text_color: 0xF8F9FAFF
-    hilited_candidate_back_color: 0x6F2EF2FF
+    hilited_candidate_back_color: 0x6F2EF2CC
   'preset_color_schemes/compact_capsule_purple_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -180,7 +180,7 @@ patch:
     hilited_text_color: 0xF8F9FAFF
     hilited_back_color: 0x4C555DCC
     hilited_candidate_text_color: 0xF8F9FAFF
-    hilited_candidate_back_color: 0x6F2EF2FF
+    hilited_candidate_back_color: 0x6F2EF2CC
   'preset_color_schemes/compact_capsule_magenta':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -193,7 +193,7 @@ patch:
     hilited_text_color: 0x15191DFF
     hilited_back_color: 0xFFFFFFCC
     hilited_candidate_text_color: 0xF8F9FAFF
-    hilited_candidate_back_color: 0xD63384FF
+    hilited_candidate_back_color: 0xD63384CC
   'preset_color_schemes/compact_capsule_magenta_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -206,7 +206,7 @@ patch:
     hilited_text_color: 0xF8F9FAFF
     hilited_back_color: 0x4C555DCC
     hilited_candidate_text_color: 0xF8F9FAFF
-    hilited_candidate_back_color: 0xD63384FF
+    hilited_candidate_back_color: 0xD63384CC
   'preset_color_schemes/compact_capsule_green':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -219,7 +219,7 @@ patch:
     hilited_text_color: 0x15191DFF
     hilited_back_color: 0xFFFFFFCC
     hilited_candidate_text_color: 0xF8F9FAFF
-    hilited_candidate_back_color: 0x198754FF
+    hilited_candidate_back_color: 0x198754CC
   'preset_color_schemes/compact_capsule_green_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
     color_format: rgba
@@ -232,7 +232,7 @@ patch:
     hilited_text_color: 0xF8F9FAFF
     hilited_back_color: 0x4C555DCC
     hilited_candidate_text_color: 0xF8F9FAFF
-    hilited_candidate_back_color: 0x198754FF
+    hilited_candidate_back_color: 0x198754CC
   'style/layout':
     candidate_radius: 8
     corner_radius: 8

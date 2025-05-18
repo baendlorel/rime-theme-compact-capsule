@@ -22,6 +22,19 @@ export const rgba = (r: number, g: number, b: number, a: number): string => {
 
 export const rgb = (r: number, g: number, b: number): string => rgba(r, g, b, 1);
 
+export const setAlpha = (color: string, alpha: number): string => {
+  assert.equal(0 <= alpha && alpha <= 1, true, `alpha must be in 0~1. alpha = ${alpha}`);
+  const [r, g, b] =
+    color
+      .match(/0x([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})/)
+      ?.slice(1)
+      .map((v) => parseInt(v, 16)) || [];
+  assert.equal(isColor(r), true, `r must be an integer. r = ${r}`);
+  assert.equal(isColor(g), true, `g must be an integer. g = ${g}`);
+  assert.equal(isColor(b), true, `b must be an integer. b = ${b}`);
+  return rgba(r, g, b, alpha);
+};
+
 // 来自bootstrap的颜色
 export const BS = {
   PRIMARY: rgb(13, 110, 253),
