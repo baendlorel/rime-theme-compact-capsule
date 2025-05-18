@@ -2,10 +2,11 @@ import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { COMPACT_CAPSULE_SCHEMAS, SCHEMA_NAMES } from './schemas';
 import { schemaToYaml } from './schema-to-yaml';
+import pkgInfo from '../package.json';
 
 const main = () => {
-  const WEASEL_CUSTOM = 'patch_weasel.custom.yaml';
-  const DEFAULT_CUSTOM = 'patch_default.custom.yaml';
+  const WEASEL_CUSTOM = `patch_weasel.custom-${pkgInfo.version}.yaml`;
+  const DEFAULT_CUSTOM = `patch_default.custom-${pkgInfo.version}.yaml`;
 
   const dist = join(process.cwd(), 'dist');
   if (!existsSync(dist)) {
