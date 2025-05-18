@@ -22,7 +22,8 @@ const main = () => {
     hilite_padding_y: 6
     margin_x: 0
     margin_y: 0
-  'stype/horizontal': true
+    border_width: 0
+  'style/horizontal': true
   'style/inline_preedit': true
     `;
   const weaselYaml = schemas + styles;
