@@ -29,16 +29,22 @@ export const COMPACT_CAPSULE_SCHEMAS = [
     hilitedCandidateBackColor: setAlpha(rgb(16, 119, 208), ALPHA),
   },
   {
+    id: 'blue-dim',
+    name: '深蓝',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(2, 77, 142), ALPHA),
+  },
+  {
     id: 'cyan',
     name: '青',
     hilitedCandidateTextColor: BS.DARK,
-    hilitedCandidateBackColor: setAlpha(rgb(121, 223, 193), ALPHA),
+    hilitedCandidateBackColor: setAlpha(rgb(78, 219, 177), ALPHA),
   },
   {
     id: 'sky',
     name: '天',
     hilitedCandidateTextColor: BS.DARK,
-    hilitedCandidateBackColor: setAlpha(rgb(110, 223, 246), ALPHA),
+    hilitedCandidateBackColor: setAlpha(rgb(77, 209, 236), ALPHA),
   },
   {
     id: 'red',
@@ -50,7 +56,7 @@ export const COMPACT_CAPSULE_SCHEMAS = [
     id: 'orange',
     name: '橙',
     hilitedCandidateTextColor: BS.LIGHT,
-    hilitedCandidateBackColor: setAlpha(rgb(229, 98, 0), ALPHA),
+    hilitedCandidateBackColor: setAlpha(rgb(255, 111, 0), ALPHA),
   },
   {
     id: 'yellow',
@@ -62,7 +68,7 @@ export const COMPACT_CAPSULE_SCHEMAS = [
     id: 'purple',
     name: '紫',
     hilitedCandidateTextColor: BS.LIGHT,
-    hilitedCandidateBackColor: setAlpha(rgb(111, 46, 242), ALPHA),
+    hilitedCandidateBackColor: setAlpha(rgb(118, 60, 233), ALPHA),
   },
   {
     id: 'magenta',
@@ -75,6 +81,12 @@ export const COMPACT_CAPSULE_SCHEMAS = [
     name: '绿',
     hilitedCandidateTextColor: BS.LIGHT,
     hilitedCandidateBackColor: setAlpha(BS.SUCCESS, ALPHA),
+  },
+  {
+    id: 'green-light',
+    name: '淡绿',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(82, 230, 84), ALPHA),
   },
 ];
 
