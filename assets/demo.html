@@ -3,83 +3,461 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Theme Preview</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>紧凑胶囊主题预览</title>
   <style>
+    :root {
+      --page-top: #f8fafc;
+      --page-bottom: #ebf1f8;
+      --panel-border: rgba(148, 163, 184, 0.38);
+      --candidate-border: rgba(148, 163, 184, 0.4);
+      --text-main: #0f172a;
+      --text-sub: #5b6b84;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      padding: 24px;
-      background: #f4f4f4;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      padding: 28px;
+      background:
+        radial-gradient(circle at 10% 0%, #ffffff 0%, #f7fafe 30%, rgba(247, 250, 254, 0) 58%),
+        linear-gradient(155deg, var(--page-top), var(--page-bottom));
+      font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      color: var(--text-main);
     }
 
+    .hero {
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .hero p {
+      margin: 6px 0 0;
+      color: var(--text-sub);
+      font-size: 13px;
+    }
 
     .grid {
-      /* display: grid;
-      grid-template-columns: repeat(5, 160px);
-      gap: 16px; */
       display: flex;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 14px;
     }
 
-    .grid .card {
-      width: 100px;
+    .theme-card {
+      width: min(100%, 260px);
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid var(--panel-border);
+      background: rgba(255, 255, 255, 0.76);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
     }
 
-    .card {
+    .theme-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(15, 23, 42, 0.12);
+    }
+
+    .candidate-row {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .candidate {
       height: 35px;
-      border-radius: 6px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 16px;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      justify-content: flex-start;
+      padding: 0 12px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      border: 1px solid var(--candidate-border);
+      background: #ffffff;
+      color: #4b5c74;
     }
 
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+    .candidate-active {
+      min-width: 86px;
+      border-radius: 10px 0 0 10px;
+      border-right: 0;
+      border-color: transparent;
+      background: var(--hilite-bg);
+      color: var(--hilite-fg);
     }
 
-    .light-text {
-      color: #ffffff;
+    .candidate-rest {
+      border-left: 0;
     }
 
-    .dark-text {
-      color: #222222;
+    .candidate-rest-first {
+      border-radius: 0;
+      border-right: 0;
+    }
+
+    .candidate-rest-last {
+      border-radius: 0 10px 10px 0;
+    }
+
+    .theme-meta {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .theme-name {
+      color: #1e293b;
+    }
+
+    .theme-code {
+      font-family: "JetBrains Mono", "Consolas", monospace;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 720px) {
+      body {
+        padding: 16px;
+      }
+
+      .candidate-row {
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
     }
   </style>
 </head>
 
 <body>
+  <section class="hero">
+    <h1>紧凑胶囊候选词预览</h1>
+    <p>颜色按彩虹渐变排序，同色系优先从亮到暗。</p>
+  </section>
 
   <div class="grid">
-    <div class="card" style="background: #312F2FCC; color:#F8F9FAFF">黑暗</div>
-    <div class="card" style="background: #FB4D3DCC; color:#F8F9FAFF">西红柿</div>
-    <div class="card" style="background: #6C534ECC; color:#F8F9FAFF">紫灰棕</div>
-    <div class="card" style="background: #C17767CC; color:#F8F9FAFF">尘玫</div>
-    <div class="card" style="background: #FF6F00CC; color:#F8F9FAFF">橙</div>
-    <div class="card" style="background: #D3B99FCC; color:#15191DFF">香槟金</div>
-    <div class="card" style="background: #FFC107CC; color:#15191DFF">黄</div>
-    <div class="card" style="background: #52E654CC; color:#15191DFF">绿</div>
-    <div class="card" style="background: #198754CC; color:#F8F9FAFF">草绿</div>
-    <div class="card" style="background: #4EDBB1CC; color:#15191DFF">青</div>
-    <div class="card" style="background: #03CEA4CC; color:#15191DFF">薄荷</div>
-    <div class="card" style="background: #4DD1ECCC; color:#15191DFF">天</div>
-    <div class="card" style="background: #6D98BACC; color:#F8F9FAFF">钢铁蓝</div>
-    <div class="card" style="background: #4F6272CC; color:#F8F9FAFF">岩蓝</div>
-    <div class="card" style="background: #1077D0CC; color:#F8F9FAFF">蓝</div>
-    <div class="card" style="background: #024D8ECC; color:#F8F9FAFF">深蓝</div>
-    <div class="card" style="background: #BCCCE0CC; color:#F8F9FAFF">雨云</div>
-    <div class="card" style="background: #345995CC; color:#F8F9FAFF">暮蓝</div>
-    <div class="card" style="background: #763CE9CC; color:#F8F9FAFF">紫</div>
-    <div class="card" style="background: #D63384CC; color:#F8F9FAFF">品</div>
-    <div class="card" style="background: #8F2D56CC; color:#F8F9FAFF">葡萄酒</div>
-    <div class="card" style="background: #D81159CC; color:#F8F9FAFF">树莓</div>
-    <div class="card" style="background: #CA1551CC; color:#F8F9FAFF">玫瑰</div>
-    <div class="card" style="background: #D23242CC; color:#F8F9FAFF">红</div>
-    <div class="card" style="background: #210203CC; color:#F8F9FAFF">咖啡豆</div>
+    <article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#FB4D3DCC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 西红柿</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#FB4D3D</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#D23242CC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 红</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#D23242</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#210203CC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 咖啡豆</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#210203</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#D3B99FCC; --hilite-fg:#15191DFF;">
+    <span class="candidate candidate-active">1 香槟金</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#D3B99F</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#C17767CC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 尘玫</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#C17767</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#FF6F00CC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 橙</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#FF6F00</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#FFC107CC; --hilite-fg:#15191DFF;">
+    <span class="candidate candidate-active">1 黄</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#FFC107</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#52E654CC; --hilite-fg:#15191DFF;">
+    <span class="candidate candidate-active">1 绿</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#52E654</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#198754CC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 草绿</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#198754</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#4EDBB1CC; --hilite-fg:#15191DFF;">
+    <span class="candidate candidate-active">1 青</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#4EDBB1</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#03CEA4CC; --hilite-fg:#15191DFF;">
+    <span class="candidate candidate-active">1 薄荷</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#03CEA4</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#4DD1ECCC; --hilite-fg:#15191DFF;">
+    <span class="candidate candidate-active">1 天</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#4DD1EC</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#BCCCE0CC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 雨云</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#BCCCE0</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#6D98BACC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 钢铁蓝</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#6D98BA</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#1077D0CC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 蓝</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#1077D0</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#345995CC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 暮蓝</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#345995</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#4F6272CC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 岩蓝</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#4F6272</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#024D8ECC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 深蓝</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#024D8E</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#763CE9CC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 紫</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#763CE9</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#7B2CBFCC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 皇紫</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#7B2CBF</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#5A189ACC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 靛紫</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#5A189A</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#C77DFFCC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 魔法紫</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#C77DFF</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#D63384CC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 品</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#D63384</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#D81159CC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 树莓</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#D81159</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#CA1551CC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 玫瑰</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#CA1551</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#8F2D56CC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 葡萄酒</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#8F2D56</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#6C534ECC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 紫灰棕</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#6C534E</span>
+  </div>
+</article>
+<article class="theme-card">
+  <div class="candidate-row" style="--hilite-bg:#312F2FCC; --hilite-fg:#F8F9FAFF;">
+    <span class="candidate candidate-active">1 黑暗</span>
+    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
+    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+  </div>
+  <div class="theme-meta">
+    <span class="theme-name"></span>
+    <span class="theme-code">#312F2F</span>
+  </div>
+</article>
   </div>
 
 </body>

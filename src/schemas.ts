@@ -82,6 +82,8 @@ export const COMPACT_CAPSULE_SCHEMAS = [
     hilitedCandidateTextColor: BS.DARK,
     hilitedCandidateBackColor: setAlpha(rgb(82, 230, 84), ALPHA),
   },
+
+  // # 特种颜色
   {
     id: 'dark',
     name: '黑暗',
@@ -171,6 +173,24 @@ export const COMPACT_CAPSULE_SCHEMAS = [
     name: '紫灰棕',
     hilitedCandidateTextColor: BS.LIGHT,
     hilitedCandidateBackColor: setAlpha(rgb(108, 83, 78), ALPHA),
+  },
+  {
+    id: 'royal-violet',
+    name: '皇紫',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(123, 44, 191), ALPHA),
+  },
+  {
+    id: 'mavue-magic',
+    name: '魔法紫',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(199, 125, 255), ALPHA),
+  },
+  {
+    id: 'indigo-violet',
+    name: '靛紫',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(90, 24, 154), ALPHA),
   },
 ];
 export const SCHEMA_NAMES = COMPACT_CAPSULE_SCHEMAS.map((s) => NAME_PRFIX + s.name);

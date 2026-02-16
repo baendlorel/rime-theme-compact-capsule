@@ -3,56 +3,151 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Theme Preview</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>紧凑胶囊主题预览</title>
   <style>
+    :root {
+      --page-top: #f8fafc;
+      --page-bottom: #ebf1f8;
+      --panel-border: rgba(148, 163, 184, 0.38);
+      --candidate-border: rgba(148, 163, 184, 0.4);
+      --text-main: #0f172a;
+      --text-sub: #5b6b84;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      padding: 24px;
-      background: #f4f4f4;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      padding: 28px;
+      background:
+        radial-gradient(circle at 10% 0%, #ffffff 0%, #f7fafe 30%, rgba(247, 250, 254, 0) 58%),
+        linear-gradient(155deg, var(--page-top), var(--page-bottom));
+      font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      color: var(--text-main);
     }
 
+    .hero {
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .hero p {
+      margin: 6px 0 0;
+      color: var(--text-sub);
+      font-size: 13px;
+    }
 
     .grid {
-      /* display: grid;
-      grid-template-columns: repeat(5, 160px);
-      gap: 16px; */
       display: flex;
       flex-wrap: wrap;
-
+      gap: 14px;
     }
 
-    .grid .card {
-      width: 100px;
+    .theme-card {
+      width: min(100%, 260px);
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid var(--panel-border);
+      background: rgba(255, 255, 255, 0.76);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
     }
 
-    .card {
+    .theme-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(15, 23, 42, 0.12);
+    }
+
+    .candidate-row {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .candidate {
       height: 35px;
-      border-radius: 6px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 16px;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      justify-content: flex-start;
+      padding: 0 12px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      border: 1px solid var(--candidate-border);
+      background: #ffffff;
+      color: #4b5c74;
     }
 
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+    .candidate-active {
+      min-width: 86px;
+      border-radius: 10px 0 0 10px;
+      border-right: 0;
+      border-color: transparent;
+      background: var(--hilite-bg);
+      color: var(--hilite-fg);
     }
 
-    .light-text {
-      color: #ffffff;
+    .candidate-rest {
+      border-left: 0;
     }
 
-    .dark-text {
-      color: #222222;
+    .candidate-rest-first {
+      border-radius: 0;
+      border-right: 0;
+    }
+
+    .candidate-rest-last {
+      border-radius: 0 10px 10px 0;
+    }
+
+    .theme-meta {
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .theme-name {
+      color: #1e293b;
+    }
+
+    .theme-code {
+      font-family: "JetBrains Mono", "Consolas", monospace;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 720px) {
+      body {
+        padding: 16px;
+      }
+
+      .candidate-row {
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
     }
   </style>
 </head>
 
 <body>
+  <section class="hero">
+    <h1>紧凑胶囊候选词预览</h1>
+    <p>颜色按彩虹渐变排序，同色系优先从亮到暗。</p>
+  </section>
 
   <div class="grid">
     {{cards}}
