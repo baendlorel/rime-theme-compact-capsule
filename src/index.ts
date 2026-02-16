@@ -3,6 +3,7 @@ import { join } from 'path';
 import { COMPACT_CAPSULE_SCHEMAS, SCHEMA_NAMES } from './schemas';
 import { schemaToYaml } from './schema-to-yaml';
 import pkgInfo from '../package.json';
+import { demo } from './demo';
 
 const main = () => {
   const WEASEL_CUSTOM = `patch_weasel.custom-${pkgInfo.version}.yaml`;
@@ -42,6 +43,9 @@ const main = () => {
   'menu/page_size': 6`;
   console.log(`saving ${DEFAULT_CUSTOM}`);
   writeFileSync(join(dist, DEFAULT_CUSTOM), defaultYaml);
+
+  console.log(`generating demo.html`);
+  demo();
   console.log(`finished`);
 };
 
