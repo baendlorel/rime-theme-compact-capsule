@@ -1,0 +1,68 @@
+name: Build and Publish Release
+
+on:
+  push:
+    branches:
+      - release
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Read version from package.json
+        id: version
+        run: |
+          VERSION="$(node -p 'require("./package.json").version')"
+          echo "value=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Create git tag from package version
+        run: |
+          TAG="${{ steps.version.outputs.value }}"
+          if git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null 2>&1; then
+            echo "Tag ${TAG} already exists, skip creating."
+            exit 0
+          fi
+          git tag "${TAG}"
+          git push origin "${TAG}"
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.version.outputs.value }}
+        run: |
+          if gh release view "${TAG}" >/dev/null 2>&1; then
+            echo "Release ${TAG} already exists, uploading latest artifacts."
+            gh release upload "${TAG}" dist/* --clobber
+            exit 0
+          fi
+
+          gh release create "${TAG}" dist/* \
+            --title "${TAG}" \
+            --generate-notes \
+            --target "${GITHUB_SHA}"
