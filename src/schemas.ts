@@ -101,6 +101,12 @@ export const COMPACT_CAPSULE_SCHEMAS = [
     hilitedCandidateBackColor: setAlpha(rgb(202, 21, 81), ALPHA),
   },
   {
+    id: 'rosewood',
+    name: '尘玫',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(193, 119, 103), ALPHA),
+  },
+  {
     id: 'tomato',
     name: '西红柿',
     hilitedCandidateTextColor: BS.LIGHT,
@@ -123,6 +129,48 @@ export const COMPACT_CAPSULE_SCHEMAS = [
     name: '暮蓝',
     hilitedCandidateTextColor: BS.LIGHT,
     hilitedCandidateBackColor: setAlpha(rgb(52, 89, 149), ALPHA),
+  },
+  {
+    id: 'steel-blue',
+    name: '钢铁蓝',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(109, 152, 186), ALPHA),
+  },
+  {
+    id: 'tan',
+    name: '香槟金',
+    hilitedCandidateTextColor: BS.DARK,
+    hilitedCandidateBackColor: setAlpha(rgb(211, 185, 159), ALPHA),
+  },
+  {
+    id: 'coffee-bean',
+    name: '咖啡豆',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(33, 2, 3), ALPHA),
+  },
+  {
+    id: 'raspberry',
+    name: '树莓',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(216, 17, 89), ALPHA),
+  },
+  {
+    id: 'vintage',
+    name: '葡萄酒',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(143, 45, 86), ALPHA),
+  },
+  {
+    id: 'blue-slate',
+    name: '岩蓝',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(79, 98, 114), ALPHA),
+  },
+  {
+    id: 'mauve-bark',
+    name: '紫灰棕',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(108, 83, 78), ALPHA),
   },
 ];
 export const SCHEMA_NAMES = COMPACT_CAPSULE_SCHEMAS.map((s) => NAME_PRFIX + s.name);
