@@ -101,7 +101,7 @@ export const COMPACT_CAPSULE_SCHEMAS = [
     hilitedCandidateBackColor: setAlpha(rgb(202, 21, 81), ALPHA),
   },
   {
-    id: 'rosewood',
+    id: 'dust-rose',
     name: '尘玫',
     hilitedCandidateTextColor: BS.LIGHT,
     hilitedCandidateBackColor: setAlpha(rgb(193, 119, 103), ALPHA),
