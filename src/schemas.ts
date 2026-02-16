@@ -93,7 +93,7 @@ export const COMPACT_CAPSULE_SCHEMAS = [
   {
     id: 'rain',
     name: '雨云',
-    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateTextColor: BS.DARK,
     hilitedCandidateBackColor: setAlpha(rgb(188, 204, 224), ALPHA),
   },
   {
@@ -191,6 +191,18 @@ export const COMPACT_CAPSULE_SCHEMAS = [
     name: '靛紫',
     hilitedCandidateTextColor: BS.LIGHT,
     hilitedCandidateBackColor: setAlpha(rgb(90, 24, 154), ALPHA),
+  },
+  {
+    id: 'verdigris',
+    name: '铜绿',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(42, 157, 143), ALPHA),
+  },
+  {
+    id: 'muted-olive',
+    name: '橄榄',
+    hilitedCandidateTextColor: BS.DARK,
+    hilitedCandidateBackColor: setAlpha(rgb(173, 193, 120), ALPHA),
   },
 ];
 export const SCHEMA_NAMES = COMPACT_CAPSULE_SCHEMAS.map((s) => NAME_PRFIX + s.name);
