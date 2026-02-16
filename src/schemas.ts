@@ -41,12 +41,6 @@ export const COMPACT_CAPSULE_SCHEMAS = [
     hilitedCandidateBackColor: setAlpha(rgb(78, 219, 177), ALPHA),
   },
   {
-    id: 'sky',
-    name: '天',
-    hilitedCandidateTextColor: BS.DARK,
-    hilitedCandidateBackColor: setAlpha(rgb(77, 209, 236), ALPHA),
-  },
-  {
     id: 'red',
     name: '红',
     hilitedCandidateTextColor: BS.LIGHT,
@@ -77,17 +71,58 @@ export const COMPACT_CAPSULE_SCHEMAS = [
     hilitedCandidateBackColor: setAlpha(rgb(214, 51, 132), ALPHA),
   },
   {
-    id: 'green',
-    name: '绿',
+    id: 'green-grass',
+    name: '草绿',
     hilitedCandidateTextColor: BS.LIGHT,
     hilitedCandidateBackColor: setAlpha(BS.SUCCESS, ALPHA),
   },
   {
-    id: 'green-light',
-    name: '淡绿',
-    hilitedCandidateTextColor: BS.LIGHT,
+    id: 'green',
+    name: '绿',
+    hilitedCandidateTextColor: BS.DARK,
     hilitedCandidateBackColor: setAlpha(rgb(82, 230, 84), ALPHA),
   },
+  {
+    id: 'dark',
+    name: '黑暗',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(49, 47, 47), ALPHA),
+  },
+  {
+    id: 'rain',
+    name: '雨云',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(188, 204, 224), ALPHA),
+  },
+  {
+    id: 'rosewood',
+    name: '玫瑰',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(202, 21, 81), ALPHA),
+  },
+  {
+    id: 'tomato',
+    name: '西红柿',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(251, 77, 61), ALPHA),
+  },
+  {
+    id: 'sky',
+    name: '天',
+    hilitedCandidateTextColor: BS.DARK,
+    hilitedCandidateBackColor: setAlpha(rgb(77, 209, 236), ALPHA),
+  },
+  {
+    id: 'mint-leaf',
+    name: '薄荷',
+    hilitedCandidateTextColor: BS.DARK,
+    hilitedCandidateBackColor: setAlpha(rgb(3, 206, 164), ALPHA),
+  },
+  {
+    id: 'dusk-blue',
+    name: '暮蓝',
+    hilitedCandidateTextColor: BS.LIGHT,
+    hilitedCandidateBackColor: setAlpha(rgb(52, 89, 149), ALPHA),
+  },
 ];
-
 export const SCHEMA_NAMES = COMPACT_CAPSULE_SCHEMAS.map((s) => NAME_PRFIX + s.name);
