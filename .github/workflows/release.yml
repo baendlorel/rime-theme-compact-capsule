@@ -5,12 +5,11 @@ on:
     branches:
       - release
 
-permissions:
-  contents: write
-
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -66,3 +65,28 @@ jobs:
             --title "${TAG}" \
             --generate-notes \
             --target "${GITHUB_SHA}"
+
+      - name: Prepare GitHub Pages artifact
+        run: |
+          mkdir -p _site
+          cp assets/demo.html _site/index.html
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy-pages:
+    needs: build-and-release
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

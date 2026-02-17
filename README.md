@@ -20,6 +20,10 @@ rime 输入法使用的主题，整体呈一个紧凑的胶囊形状，分亮色
   <img src="assets/compact-capsule-examples.png" alt="紧凑胶囊系列效果图" width="50%">
 </p>
 
+## 在线预览
+
+- GitHub Pages: <https://baendlorel.github.io/rime-theme-compact-capsule/>
+
 ## 使用方法
 
 1. 进入 `dist` 文件夹
