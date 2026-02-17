@@ -1,123 +1,282 @@
+import { execSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
-import { COMPACT_CAPSULE_SCHEMAS } from './schemas';
 import path from 'node:path';
+import pkgInfo from '../package.json';
+import { parse } from 'yaml';
+
+type PatchMap = Record<string, unknown>;
+
+type ThemeConfig = {
+  id: string;
+  name: string;
+  textColor: string;
+  candidateTextColor: string;
+  commentTextColor: string;
+  labelColor: string;
+  backColor: string;
+  borderColor: string;
+  shadowColor: string;
+  hilitedTextColor: string;
+  hilitedBackColor: string;
+  hilitedCommentTextColor: string;
+  hilitedLabelColor: string;
+  hilitedCandidateTextColor: string;
+  hilitedCandidateBackColor: string;
+  hilitedCandidateLabelColor: string;
+  nextpageColor: string;
+  prevpageColor: string;
+};
+
+type LayoutConfig = {
+  candidateRadius: number;
+  cornerRadius: number;
+  hilitePaddingX: number;
+  hilitePaddingY: number;
+};
+
+type RenderFlags = {
+  horizontal: boolean;
+  inlinePreedit: boolean;
+};
 
 const template = readFileSync(path.join(import.meta.dirname, 'demo.template.html'), 'utf-8');
-const HUE_START = 345;
-const HUE_GROUP_SIZE = 24;
-const MUTED_SATURATION_THRESHOLD = 0.18;
 
-type Hsl = {
-  h: number;
-  s: number;
-  l: number;
+const DEFAULT_LAYOUT: LayoutConfig = {
+  candidateRadius: 8,
+  cornerRadius: 8,
+  hilitePaddingX: 10,
+  hilitePaddingY: 6,
 };
 
-type PreviewCard = {
-  bg: string;
-  color: string;
-  name: string;
-  hsl: Hsl;
-  hueOrder: number;
-  hueGroup: number;
-};
+const FALLBACK_REPOSITORY = 'baendlorel/rime-theme-compact-capsule';
 
 export const demo = () => {
-  const cards = COMPACT_CAPSULE_SCHEMAS.map((schema) => {
-    const bg = toHex(schema.hilitedCandidateBackColor);
-    const color = toHex(schema.hilitedCandidateTextColor);
-    const hsl = hexToHsl(bg);
-    const hueOrder = shiftHue(hsl.h);
-    const hueGroup = hsl.s < MUTED_SATURATION_THRESHOLD ? 999 : Math.floor(hueOrder / HUE_GROUP_SIZE);
+  const patchPath = path.join(import.meta.dirname, '..', 'dist', `patch_weasel.custom-${pkgInfo.version}.yaml`);
+  const content = readFileSync(patchPath, 'utf-8');
+  const parsed = parse(content) as { patch?: PatchMap } | null;
+  const patch = toRecord(parsed?.patch);
 
-    return {
-      bg,
-      color,
-      name: schema.name,
-      hsl,
-      hueOrder,
-      hueGroup,
-    };
-  })
-    .sort(compareColorSmoothly)
-    .map((card) => renderCard(card))
-    .join('\n');
+  const layout = resolveLayout(toRecord(patch['style/layout']));
+  const flags: RenderFlags = {
+    horizontal: asBoolean(patch['style/horizontal'], true),
+    inlinePreedit: asBoolean(patch['style/inline_preedit'], true),
+  };
+  const list = Object.entries(patch)
+    .filter(([key]) => key.startsWith('preset_color_schemes/'))
+    .map(([key, value]) => toThemeConfig(key, toRecord(value)));
 
-  const html = template.replace('{{cards}}', cards);
+  const cards = list.map((item) => renderCard(item, layout, flags)).join('\n');
+  const repository = resolveRepository();
+  const now = new Date().toLocaleString('zh-CN', {
+    hour12: false,
+  });
+
+  const html = template
+    .replace('{{cards}}', cards)
+    .replace('{{schema_count}}', String(list.length))
+    .replace('{{version}}', String(pkgInfo.version))
+    .replace('{{latest_release_url}}', `https://github.com/${repository}/releases/latest`)
+    .replace('{{release_url}}', `https://github.com/${repository}/releases`)
+    .replace('{{candidate_layout}}', flags.horizontal ? '水平' : '垂直')
+    .replace('{{inline_preedit}}', flags.inlinePreedit ? '开启' : '关闭')
+    .replace('{{generated_at}}', escapeHtml(now));
+
   writeFileSync(path.join(import.meta.dirname, '..', 'assets', 'demo.html'), html);
 };
 
-function renderCard(card: PreviewCard) {
-  return `<article class="theme-card">
-  <div class="candidate-row" style="--hilite-bg:${card.bg}; --hilite-fg:${card.color};">
-    <span class="candidate candidate-active">1 ${card.name}</span>
-    <span class="candidate candidate-rest candidate-rest-first">2 候选词</span>
-    <span class="candidate candidate-rest candidate-rest-last">3 演示</span>
+function toThemeConfig(key: string, config: PatchMap): ThemeConfig {
+  const id = key.slice('preset_color_schemes/'.length);
+  return {
+    id,
+    name: asString(config.name, id),
+    textColor: asColor(config.text_color, '#15191DFF'),
+    candidateTextColor: asColor(config.candidate_text_color, asColor(config.text_color, '#15191DFF')),
+    commentTextColor: asColor(config.comment_text_color, '#6B7280CC'),
+    labelColor: asColor(config.label_color, '#64748BCC'),
+    backColor: asColor(config.back_color, '#FFFFFFCC'),
+    borderColor: asColor(config.border_color, '#00000000'),
+    shadowColor: asColor(config.shadow_color, '#1E293B24'),
+    hilitedTextColor: asColor(config.hilited_text_color, asColor(config.text_color, '#15191DFF')),
+    hilitedBackColor: asColor(config.hilited_back_color, '#EEF2F7CC'),
+    hilitedCommentTextColor: asColor(
+      config.hilited_comment_text_color,
+      asColor(config.comment_text_color, '#6B7280CC'),
+    ),
+    hilitedLabelColor: asColor(config.hilited_label_color, asColor(config.label_color, '#94A3B8CC')),
+    hilitedCandidateTextColor: asColor(
+      config.hilited_candidate_text_color,
+      asColor(config.candidate_text_color, '#F8F9FAFF'),
+    ),
+    hilitedCandidateBackColor: asColor(config.hilited_candidate_back_color, '#3B82F6CC'),
+    hilitedCandidateLabelColor: asColor(
+      config.hilited_candidate_label_color,
+      asColor(config.hilited_label_color, '#CBD5E1CC'),
+    ),
+    nextpageColor: asColor(config.nextpage_color, asColor(config.hilited_candidate_back_color, '#64748BCC')),
+    prevpageColor: asColor(config.prevpage_color, asColor(config.hilited_label_color, '#94A3B8CC')),
+  };
+}
+
+function resolveLayout(config: PatchMap): LayoutConfig {
+  return {
+    candidateRadius: asNumber(config.candidate_radius, DEFAULT_LAYOUT.candidateRadius),
+    cornerRadius: asNumber(config.corner_radius, DEFAULT_LAYOUT.cornerRadius),
+    hilitePaddingX: asNumber(config.hilite_padding_x, DEFAULT_LAYOUT.hilitePaddingX),
+    hilitePaddingY: asNumber(config.hilite_padding_y, DEFAULT_LAYOUT.hilitePaddingY),
+  };
+}
+
+function renderCard(theme: ThemeConfig, layout: LayoutConfig, flags: RenderFlags): string {
+  const style = [
+    `--panel-text:${theme.textColor}`,
+    `--candidate-text:${theme.candidateTextColor}`,
+    `--comment-text:${theme.commentTextColor}`,
+    `--label-text:${theme.labelColor}`,
+    `--panel-bg:${theme.backColor}`,
+    `--panel-border:${theme.borderColor}`,
+    `--panel-shadow:${theme.shadowColor}`,
+    `--hilited-text:${theme.hilitedTextColor}`,
+    `--hilited-bg:${theme.hilitedBackColor}`,
+    `--hilited-comment:${theme.hilitedCommentTextColor}`,
+    `--hilited-label:${theme.hilitedLabelColor}`,
+    `--active-text:${theme.hilitedCandidateTextColor}`,
+    `--active-bg:${theme.hilitedCandidateBackColor}`,
+    `--active-label:${theme.hilitedCandidateLabelColor}`,
+    `--nextpage:${theme.nextpageColor}`,
+    `--prevpage:${theme.prevpageColor}`,
+    `--candidate-radius:${layout.candidateRadius}px`,
+    `--corner-radius:${layout.cornerRadius}px`,
+    `--hilite-padding-x:${layout.hilitePaddingX}px`,
+    `--hilite-padding-y:${layout.hilitePaddingY}px`,
+  ].join(';');
+
+  const name = escapeHtml(theme.name);
+  const id = escapeHtml(theme.id);
+  const hlColor = theme.hilitedCandidateBackColor.toUpperCase();
+  const backColor = theme.backColor.toUpperCase();
+  const preedit = flags.inlinePreedit
+    ? `<div class="preedit-row">
+      <span class="preedit-label">拼</span>
+      <span class="preedit-text">jin cou jiao nang</span>
+      <span class="preedit-comment">紧凑胶囊</span>
+    </div>`
+    : '';
+  const rowClass = flags.horizontal ? 'candidate-row' : 'candidate-row candidate-row-vertical';
+
+  return `<article class="theme-card" style="${style}">
+  <header class="theme-head">
+    <h2 class="theme-name">${name}</h2>
+    <code class="theme-id">${id}</code>
+  </header>
+  <div class="weasel-panel">
+    ${preedit}
+    <div class="${rowClass}">
+      <span class="candidate candidate-active"><em>1</em><span>紧凑</span></span>
+      <span class="candidate"><em>2</em><span>胶囊</span></span>
+      <span class="candidate"><em>3</em><span>样式</span></span>
+      <span class="candidate"><em>4</em><span>预览</span></span>
+    </div>
+    <div class="panel-footer">
+      <span class="pager prev">◀</span>
+      <span class="hint">CapsLock 切换中英</span>
+      <span class="pager next">▶</span>
+    </div>
   </div>
   <div class="theme-meta">
-    <span class="theme-name"></span>
-    <span class="theme-code">${card.bg.toUpperCase().replace(/CC$/g, '')}</span>
+    <span class="meta-chip">面板 ${backColor}</span>
+    <span class="meta-chip">高亮 ${hlColor}</span>
   </div>
 </article>`;
 }
 
-function compareColorSmoothly(a: PreviewCard, b: PreviewCard) {
-  if (a.hueGroup !== b.hueGroup) {
-    return a.hueGroup - b.hueGroup;
+function asString(value: unknown, fallback: string): string {
+  if (typeof value === 'string' && value.length > 0) {
+    return value;
   }
+  return fallback;
+}
 
-  if (a.hueGroup === 999 && b.hueGroup === 999) {
-    if (a.hsl.l !== b.hsl.l) return b.hsl.l - a.hsl.l;
-    if (a.hueOrder !== b.hueOrder) return a.hueOrder - b.hueOrder;
-    return b.hsl.s - a.hsl.s;
+function asNumber(value: unknown, fallback: number): number {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return value;
   }
-
-  if (a.hsl.l !== b.hsl.l) return b.hsl.l - a.hsl.l;
-  if (a.hueOrder !== b.hueOrder) return a.hueOrder - b.hueOrder;
-  return b.hsl.s - a.hsl.s;
+  return fallback;
 }
 
-function shiftHue(hue: number) {
-  return (hue - HUE_START + 360) % 360;
+function asBoolean(value: unknown, fallback: boolean): boolean {
+  if (typeof value === 'boolean') {
+    return value;
+  }
+  return fallback;
 }
 
-function toHex(color: string) {
-  const normalized = color.replace(/^0x/i, '').replace(/^#/, '');
-  return `#${normalized}`;
+function asColor(value: unknown, fallback: string): string {
+  const normalized = normalizeColor(value);
+  return normalized || fallback;
 }
 
-function hexToHsl(hex: string) {
-  hex = hex.replace('#', '').slice(0, 6);
-
-  const r = parseInt(hex.slice(0, 2), 16) / 255;
-  const g = parseInt(hex.slice(2, 4), 16) / 255;
-  const b = parseInt(hex.slice(4, 6), 16) / 255;
-
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
-  const l = (max + min) / 2;
-
-  let h = 0;
-  let s = 0;
-
-  if (max !== min) {
-    const d = max - min;
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-    switch (max) {
-      case r:
-        h = (g - b) / d + (g < b ? 6 : 0);
-        break;
-      case g:
-        h = (b - r) / d + 2;
-        break;
-      case b:
-        h = (r - g) / d + 4;
-        break;
+function normalizeColor(value: unknown): string {
+  if (typeof value === 'string') {
+    const input = value.trim();
+    if (/^0x[0-9a-f]{6}([0-9a-f]{2})?$/i.test(input)) {
+      const body = input.slice(2).toUpperCase();
+      return `#${body.length === 6 ? `${body}FF` : body}`;
     }
-
-    h *= 60;
+    if (/^#[0-9a-f]{6}([0-9a-f]{2})?$/i.test(input)) {
+      const body = input.slice(1).toUpperCase();
+      return `#${body.length === 6 ? `${body}FF` : body}`;
+    }
+    return '';
   }
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    const body = Math.trunc(value).toString(16).toUpperCase().padStart(8, '0');
+    return `#${body.slice(-8)}`;
+  }
+  return '';
+}
 
-  return { h, s, l };
+function toRecord(value: unknown): PatchMap {
+  if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+    return value as PatchMap;
+  }
+  return {};
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function resolveRepository(): string {
+  const fromEnv = process.env.GITHUB_REPOSITORY;
+  if (fromEnv && /^[^/]+\/[^/]+$/.test(fromEnv)) {
+    return fromEnv;
+  }
+  try {
+    const remote = execSync('git config --get remote.origin.url', {
+      cwd: path.join(import.meta.dirname, '..'),
+      encoding: 'utf-8',
+    }).trim();
+    const normalized = normalizeGitRemote(remote);
+    if (normalized) {
+      return normalized;
+    }
+  } catch {}
+  return FALLBACK_REPOSITORY;
+}
+
+function normalizeGitRemote(remote: string): string {
+  const ssh = remote.match(/^git@github\.com:(.+?)(?:\.git)?$/i);
+  if (ssh?.[1]) {
+    return ssh[1];
+  }
+  const https = remote.match(/^https?:\/\/github\.com\/(.+?)(?:\.git)?$/i);
+  if (https?.[1]) {
+    return https[1];
+  }
+  return '';
 }
