@@ -4,6 +4,7 @@ import path from 'node:path';
 import { parse } from 'yaml';
 
 import pkgInfo from '../../package.json';
+import { h } from './h';
 
 type PatchMap = Record<string, unknown>;
 
@@ -45,7 +46,8 @@ type ThemePair = {
   dark: ThemeConfig;
 };
 
-const template = readFileSync(path.join(import.meta.dirname, '..', 'template', '_demo.html'), 'utf-8');
+const ROOT_DIR = path.join(import.meta.dirname, '..', '..');
+const template = readFileSync(path.join(ROOT_DIR, 'template', '_demo.html'), 'utf-8');
 
 const DEFAULT_LAYOUT: LayoutConfig = {
   candidateRadius: 8,
@@ -77,7 +79,7 @@ const COLOR_KEYS: Array<[string, keyof ThemeConfig]> = [
 ];
 
 export const demo = () => {
-  const patchPath = path.join(import.meta.dirname, '..', 'dist', `patch_weasel.custom-${pkgInfo.version}.yaml`);
+  const patchPath = path.join(ROOT_DIR, 'dist', `patch_weasel.custom-${pkgInfo.version}.yaml`);
   const content = readFileSync(patchPath, 'utf-8');
   const parsed = parse(content) as { patch?: PatchMap } | null;
   const patch = toRecord(parsed?.patch);
@@ -115,13 +117,18 @@ export const demo = () => {
     : `<p class="empty">没有检测到可切换明暗的主题。</p>`;
 
   const singleTsBlock = singleThemes.length
-    ? `<div class="sub-block">
-    <h3>TS 单版本主题</h3>
-    <div class="grid">${singleThemes
-      .sort(byThemeName)
-      .map((theme) => renderStaticCard(theme, layout, flags))
-      .join('\n')}</div>
-  </div>`
+    ? h(
+        'div',
+        { className: 'sub-block' },
+        [
+          h('h3', {}, ['TS 单版本主题']),
+          h(
+            'div',
+            { className: 'grid' },
+            singleThemes.sort(byThemeName).map((theme) => renderStaticCard(theme, layout, flags)),
+          ),
+        ],
+      ).toString()
     : '';
 
   const customCards = customThemes.length
@@ -150,7 +157,7 @@ export const demo = () => {
     generated_at: escapeHtml(now),
   });
 
-  writeFileSync(path.join(import.meta.dirname, '..', 'assets', 'demo.html'), html);
+  writeFileSync(path.join(ROOT_DIR, 'assets', 'demo.html'), html);
 };
 
 function fillTemplate(input: string, values: Record<string, string>): string {
@@ -164,7 +171,7 @@ function fillTemplate(input: string, values: Record<string, string>): string {
 function loadCustomSchemaIds(): Set<string> {
   const ids = new Set<string>();
   try {
-    const content = readFileSync(path.join(import.meta.dirname, 'special-schemas.yaml'), 'utf-8');
+    const content = readFileSync(path.join(ROOT_DIR, 'src', 'special-schemas.yaml'), 'utf-8');
     const parsed = toRecord(parse(content));
     for (const key of Object.keys(parsed)) {
       if (key.startsWith(SCHEMA_PREFIX)) {
@@ -258,17 +265,26 @@ function renderSwitchableCard(pair: ThemePair, layout: LayoutConfig, flags: Rend
   const lightColor = pair.light.hilitedCandidateBackColor.toUpperCase();
   const darkColor = pair.dark.hilitedCandidateBackColor.toUpperCase();
 
-  return `<article class="theme-card switch-card" style="${style}">
-  <header class="theme-head">
-    <h3 class="theme-name">${name}</h3>
-    <code class="theme-id">${id}</code>
-  </header>
-  ${renderPanel(flags)}
-  <div class="theme-meta">
-    <span class="meta-chip">亮 ${lightColor}</span>
-    <span class="meta-chip">暗 ${darkColor}</span>
-  </div>
-</article>`;
+  return h(
+    'article',
+    { className: 'theme-card switch-card', style },
+    [
+      h(
+        'header',
+        { className: 'theme-head' },
+        [h('h3', { className: 'theme-name' }, [name]), h('code', { className: 'theme-id' }, [id])],
+      ),
+      renderPanel(flags),
+      h(
+        'div',
+        { className: 'theme-meta' },
+        [
+          h('span', { className: 'meta-chip' }, [`亮 ${lightColor}`]),
+          h('span', { className: 'meta-chip' }, [`暗 ${darkColor}`]),
+        ],
+      ),
+    ],
+  ).toString();
 }
 
 function renderStaticCard(theme: ThemeConfig, layout: LayoutConfig, flags: RenderFlags): string {
@@ -279,42 +295,76 @@ function renderStaticCard(theme: ThemeConfig, layout: LayoutConfig, flags: Rende
   const hlColor = theme.hilitedCandidateBackColor.toUpperCase().replace(/CC$/g, '');
   const backColor = theme.backColor.toUpperCase().replace(/CC$/g, '');
 
-  return `<article class="theme-card static-card" style="${style}">
-  <header class="theme-head">
-    <h3 class="theme-name">${name}</h3>
-    <code class="theme-id">${id}</code>
-  </header>
-  ${renderPanel(flags)}
-  <div class="theme-meta">
-    <span class="meta-chip">面板 ${backColor}</span>
-    <span class="meta-chip">高亮 ${hlColor}</span>
-  </div>
-</article>`;
+  return h(
+    'article',
+    { className: 'theme-card static-card', style },
+    [
+      h(
+        'header',
+        { className: 'theme-head' },
+        [h('h3', { className: 'theme-name' }, [name]), h('code', { className: 'theme-id' }, [id])],
+      ),
+      renderPanel(flags),
+      h(
+        'div',
+        { className: 'theme-meta' },
+        [
+          h('span', { className: 'meta-chip' }, [`面板 ${backColor}`]),
+          h('span', { className: 'meta-chip' }, [`高亮 ${hlColor}`]),
+        ],
+      ),
+    ],
+  ).toString();
 }
 
-function renderPanel(flags: RenderFlags): string {
+function renderPanel(flags: RenderFlags) {
   const preedit = flags.inlinePreedit
-    ? `<div class="preedit-row">
-      <span class="preedit-label">拼</span>
-      <span class="preedit-text">jin cou jiao nang</span>
-      <span class="preedit-comment">紧凑胶囊</span>
-    </div>`
-    : '';
+    ? h(
+        'div',
+        { className: 'preedit-row' },
+        [
+          h('span', { className: 'preedit-label' }, ['拼']),
+          h('span', { className: 'preedit-text' }, ['jin cou jiao nang']),
+          h('span', { className: 'preedit-comment' }, ['紧凑胶囊']),
+        ],
+      )
+    : null;
 
-  return `<div class="weasel-panel">
-    ${preedit}
-    <div class="candidate-row candidate-row-group">
-      <span class="candidate candidate-active"><em>1</em><span>紧凑</span></span>
-      <span class="candidate"><em>2</em><span>胶囊</span></span>
-      <span class="candidate"><em>3</em><span>样式</span></span>
-      <span class="candidate"><em>4</em><span>预览</span></span>
-    </div>
-    <div class="panel-footer">
-      <span class="pager prev">◀</span>
-      <span class="hint">CapsLock 切换中英</span>
-      <span class="pager next">▶</span>
-    </div>
-  </div>`;
+  return h(
+    'div',
+    { className: 'weasel-panel' },
+    [
+      preedit,
+      h(
+        'div',
+        { className: 'candidate-row candidate-row-group' },
+        [
+          renderCandidate(1, '紧凑', true),
+          renderCandidate(2, '胶囊'),
+          renderCandidate(3, '样式'),
+          renderCandidate(4, '预览'),
+        ],
+      ),
+      h(
+        'div',
+        { className: 'panel-footer' },
+        [
+          h('span', { className: 'pager prev' }, ['◀']),
+          h('span', { className: 'hint' }, ['CapsLock 切换中英']),
+          h('span', { className: 'pager next' }, ['▶']),
+        ],
+      ),
+    ],
+  );
+}
+
+function renderCandidate(index: number, text: string, active = false) {
+  const className = active ? 'candidate candidate-active' : 'candidate';
+  return h(
+    'span',
+    { className },
+    [h('em', {}, [String(index)]), h('span', {}, [text])],
+  );
 }
 
 function buildModeStyleVariables(light: ThemeConfig, dark: ThemeConfig): string[] {
@@ -431,7 +481,7 @@ function resolveRepository(): string {
   }
   try {
     const remote = execSync('git config --get remote.origin.url', {
-      cwd: path.join(import.meta.dirname, '..'),
+      cwd: ROOT_DIR,
       encoding: 'utf-8',
     }).trim();
     const normalized = normalizeGitRemote(remote);
