@@ -1,9 +1,19 @@
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
-import { join } from 'path';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+
 import { COMPACT_CAPSULE_SCHEMAS, SCHEMA_NAMES } from './schemas';
 import { schemaToYaml } from './schema-to-yaml';
 import pkgInfo from '../package.json';
 import { demo } from './demo';
+
+const loadSpecialSchemas = () => {
+  const content = readFileSync(join(import.meta.dirname, 'special-schemas.yaml'), 'utf-8');
+  const text = content
+    .split('\n')
+    .map((v) => '  ' + v.trimEnd())
+    .join('\n');
+  return text;
+};
 
 const main = () => {
   const WEASEL_CUSTOM = `patch_weasel.custom-${pkgInfo.version}.yaml`;
@@ -28,7 +38,8 @@ const main = () => {
   'style/horizontal': true
   'style/inline_preedit': true
     `;
-  const weaselYaml = schemas + styles;
+  const specialSchemas = loadSpecialSchemas();
+  const weaselYaml = schemas + specialSchemas + styles;
   console.log(`saving ${WEASEL_CUSTOM}`);
   writeFileSync(join(dist, WEASEL_CUSTOM), weaselYaml);
 
