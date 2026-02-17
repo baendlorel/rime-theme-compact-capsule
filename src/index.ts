@@ -12,7 +12,7 @@ const loadSpecialSchemas = () => {
     .split('\n')
     .map((v) => '  ' + v.trimEnd())
     .join('\n');
-  return text;
+  return text + '\n';
 };
 
 const main = () => {
