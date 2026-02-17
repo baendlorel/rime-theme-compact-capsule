@@ -103,6 +103,11 @@
       justify-content: flex-start;
       gap: 8px;
       margin-bottom: 10px;
+      pointer-events: none;
+    }
+
+    .floating-controls .btn {
+      pointer-events: auto;
     }
 
     .section {
@@ -136,7 +141,7 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
       gap: 14px;
       align-items: start;
     }
@@ -219,6 +224,7 @@
     .candidate-row-group {
       gap: 0;
       overflow-x: auto;
+      justify-content: center;
     }
 
     .candidate {
@@ -343,13 +349,14 @@
   <section class="hero">
     <h1>小胶囊系列样式预览</h1>
     <p>本页面从构建后的 patch 文件解析全部 schema，自动区分 TS 生成的可切换明暗主题和手写 YAML 主题。</p>
-    <div class="hero-actions floating-controls">
-      <a class="btn btn-primary" href="{{latest_release_url}}" target="_blank" rel="noopener noreferrer">前往 Release 下载</a>
-      <a class="btn" href="{{release_url}}" target="_blank" rel="noopener noreferrer">查看所有发布</a>
-      <button class="btn" type="button" data-mode-toggle>切换到暗色</button>
-    </div>
     <p>总计 {{schema_count}} 套主题 · TS 生成 {{ts_generated_count}} · 手写 YAML {{custom_yaml_count}} · 预编辑 {{inline_preedit}} · 生成时间 {{generated_at}}</p>
   </section>
+
+  <div class="floating-controls">
+    <a class="btn btn-primary" href="{{latest_release_url}}" target="_blank" rel="noopener noreferrer">前往 Release 下载</a>
+    <a class="btn" href="{{release_url}}" target="_blank" rel="noopener noreferrer">查看所有发布</a>
+    <button class="btn" type="button" data-mode-toggle>切换到暗色</button>
+  </div>
 
 
   <section class="section switchable-section">

@@ -278,7 +278,7 @@ function renderSwitchableCard(pair: ThemePair, layout: LayoutConfig, flags: Rend
 
   return h('article', { className: 'theme-card switch-card', style }, [
     h('header', { className: 'theme-head' }, [
-      h('h3', { className: 'theme-name' }, [name]),
+      h('h3', { className: 'theme-name' }, [name.replace('小胶囊', '')]),
       h('code', { className: 'badge badge-id' }, [id]),
     ]),
     renderPanel(flags),
@@ -320,11 +320,10 @@ function renderPanel(flags: RenderFlags) {
     : null;
 
   return h('div', { className: 'candidate-row candidate-row-group' }, [
-    renderCandidate(1, '紧凑', true),
-    renderCandidate(2, '胶囊'),
-    renderCandidate(3, '样式'),
-    renderCandidate(4, '预览'),
-    renderCandidate(5, '测试'),
+    renderCandidate(1, '小胶囊', true),
+    renderCandidate(2, '样式'),
+    renderCandidate(3, '预览'),
+    renderCandidate(4, '测试'),
   ]);
 }
 
