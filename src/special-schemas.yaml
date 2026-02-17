@@ -1,7 +1,7 @@
 'preset_color_schemes/compact_capsule_arctic_glass':
   author: 'KasukabeTsumugi <futami16237@gmail.com>'
   color_format: rgba
-  name: '紧凑胶囊北境晨雾'
+  name: '小胶囊北境晨雾'
   text_color: 0x1F2A3DFF
   candidate_text_color: 0x2E3A4FFF
   comment_text_color: 0x64748BCC
@@ -22,7 +22,7 @@
 'preset_color_schemes/compact_capsule_moonlit_ink':
   author: 'KasukabeTsumugi <futami16237@gmail.com>'
   color_format: rgba
-  name: '紧凑胶囊月夜墨海'
+  name: '小胶囊月夜墨海'
   text_color: 0xE7ECF7FF
   candidate_text_color: 0xCBD5E8FF
   comment_text_color: 0x94A3B8CC
@@ -43,7 +43,7 @@
 'preset_color_schemes/compact_capsule_sakura_milk':
   author: 'KasukabeTsumugi <futami16237@gmail.com>'
   color_format: rgba
-  name: '紧凑胶囊樱雪奶霜'
+  name: '小胶囊樱雪奶霜'
   text_color: 0x3A2330FF
   candidate_text_color: 0x4F3040FF
   comment_text_color: 0x9A7187CC
@@ -64,7 +64,7 @@
 'preset_color_schemes/compact_capsule_forest_fog':
   author: 'KasukabeTsumugi <futami16237@gmail.com>'
   color_format: rgba
-  name: '紧凑胶囊林雾青苔'
+  name: '小胶囊林雾青苔'
   text_color: 0x1F3328FF
   candidate_text_color: 0x2D4B3DFF
   comment_text_color: 0x587466CC
@@ -85,7 +85,7 @@
 'preset_color_schemes/compact_capsule_amber_night':
   author: 'KasukabeTsumugi <futami16237@gmail.com>'
   color_format: rgba
-  name: '紧凑胶囊琥珀夜灯'
+  name: '小胶囊琥珀夜灯'
   text_color: 0xFFE7B8FF
   candidate_text_color: 0xF8DDA3FF
   comment_text_color: 0xD0A769CC
@@ -106,7 +106,7 @@
 'preset_color_schemes/compact_capsule_ocean_current':
   author: 'KasukabeTsumugi <futami16237@gmail.com>'
   color_format: rgba
-  name: '紧凑胶囊潮汐深潜'
+  name: '小胶囊潮汐深潜'
   text_color: 0xD8F5FCFF
   candidate_text_color: 0xBEEAF5FF
   comment_text_color: 0x7FC6D8CC
@@ -127,7 +127,7 @@
 'preset_color_schemes/compact_capsule_plum_wine':
   author: 'KasukabeTsumugi <futami16237@gmail.com>'
   color_format: rgba
-  name: '紧凑胶囊梅酿绛紫'
+  name: '小胶囊梅酿绛紫'
   text_color: 0xF6E7F5FF
   candidate_text_color: 0xE6CEE4FF
   comment_text_color: 0xBC92B8CC
@@ -148,7 +148,7 @@
 'preset_color_schemes/compact_capsule_metal_slate':
   author: 'KasukabeTsumugi <futami16237@gmail.com>'
   color_format: rgba
-  name: '紧凑胶囊钛灰锋面'
+  name: '小胶囊钛灰锋面'
   text_color: 0xEAF1F8FF
   candidate_text_color: 0xD4DEE9FF
   comment_text_color: 0xA8B3C3CC
@@ -169,7 +169,7 @@
 'preset_color_schemes/compact_capsule_caramel_mocha':
   author: 'KasukabeTsumugi <futami16237@gmail.com>'
   color_format: rgba
-  name: '紧凑胶囊焦糖摩卡'
+  name: '小胶囊焦糖摩卡'
   text_color: 0x3B261BFF
   candidate_text_color: 0x55372AFF
   comment_text_color: 0x926F5DCC
@@ -190,7 +190,7 @@
 'preset_color_schemes/compact_capsule_neon_cyber':
   author: 'KasukabeTsumugi <futami16237@gmail.com>'
   color_format: rgba
-  name: '紧凑胶囊霓虹电路'
+  name: '小胶囊霓虹电路'
   text_color: 0xDFFBFFFF
   candidate_text_color: 0xB3F2F7FF
   comment_text_color: 0x79C9D1CC

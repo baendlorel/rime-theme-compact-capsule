@@ -35,11 +35,16 @@ type LayoutConfig = {
 };
 
 type RenderFlags = {
-  horizontal: boolean;
   inlinePreedit: boolean;
 };
 
-const template = readFileSync(path.join(import.meta.dirname, 'demo.template.html'), 'utf-8');
+type ThemePair = {
+  id: string;
+  light: ThemeConfig;
+  dark: ThemeConfig;
+};
+
+const template = readFileSync(path.join(import.meta.dirname, '..', 'template', '_demo.html'), 'utf-8');
 
 const DEFAULT_LAYOUT: LayoutConfig = {
   candidateRadius: 8,
@@ -49,6 +54,26 @@ const DEFAULT_LAYOUT: LayoutConfig = {
 };
 
 const FALLBACK_REPOSITORY = 'baendlorel/rime-theme-compact-capsule';
+const SCHEMA_PREFIX = 'preset_color_schemes/';
+
+const COLOR_KEYS: Array<[string, keyof ThemeConfig]> = [
+  ['panel-text', 'textColor'],
+  ['candidate-text', 'candidateTextColor'],
+  ['comment-text', 'commentTextColor'],
+  ['label-text', 'labelColor'],
+  ['panel-bg', 'backColor'],
+  ['panel-border', 'borderColor'],
+  ['panel-shadow', 'shadowColor'],
+  ['hilited-text', 'hilitedTextColor'],
+  ['hilited-bg', 'hilitedBackColor'],
+  ['hilited-comment', 'hilitedCommentTextColor'],
+  ['hilited-label', 'hilitedLabelColor'],
+  ['active-text', 'hilitedCandidateTextColor'],
+  ['active-bg', 'hilitedCandidateBackColor'],
+  ['active-label', 'hilitedCandidateLabelColor'],
+  ['nextpage', 'nextpageColor'],
+  ['prevpage', 'prevpageColor'],
+];
 
 export const demo = () => {
   const patchPath = path.join(import.meta.dirname, '..', 'dist', `patch_weasel.custom-${pkgInfo.version}.yaml`);
@@ -58,34 +83,132 @@ export const demo = () => {
 
   const layout = resolveLayout(toRecord(patch['style/layout']));
   const flags: RenderFlags = {
-    horizontal: asBoolean(patch['style/horizontal'], true),
     inlinePreedit: asBoolean(patch['style/inline_preedit'], true),
   };
-  const list = Object.entries(patch)
-    .filter(([key]) => key.startsWith('preset_color_schemes/'))
+
+  const allThemes = Object.entries(patch)
+    .filter(([key]) => key.startsWith(SCHEMA_PREFIX))
     .map(([key, value]) => toThemeConfig(key, toRecord(value)));
 
-  const cards = list.map((item) => renderCard(item, layout, flags)).join('\n');
-  const repository = resolveRepository();
-  const now = new Date().toLocaleString('zh-CN', {
-    hour12: false,
-  });
+  const customSourceIds = loadCustomSchemaIds();
+  const tsThemes: ThemeConfig[] = [];
+  const customThemes: ThemeConfig[] = [];
 
-  const html = template
-    .replace('{{cards}}', cards)
-    .replace('{{schema_count}}', String(list.length))
-    .replace('{{version}}', String(pkgInfo.version))
-    .replace('{{latest_release_url}}', `https://github.com/${repository}/releases/latest`)
-    .replace('{{release_url}}', `https://github.com/${repository}/releases`)
-    .replace('{{candidate_layout}}', flags.horizontal ? '水平' : '垂直')
-    .replace('{{inline_preedit}}', flags.inlinePreedit ? '开启' : '关闭')
-    .replace('{{generated_at}}', escapeHtml(now));
+  for (const theme of allThemes) {
+    const baseId = getThemeBaseId(theme);
+    const isCustom = customSourceIds.has(theme.id) || customSourceIds.has(baseId);
+    if (isCustom) {
+      customThemes.push(theme);
+    } else {
+      tsThemes.push(theme);
+    }
+  }
+
+  const { switchablePairs, singleThemes } = groupSwitchableThemes(tsThemes);
+
+  const switchableCards = switchablePairs.length
+    ? switchablePairs
+        .sort(byPairName)
+        .map((pair) => renderSwitchableCard(pair, layout, flags))
+        .join('\n')
+    : `<p class="empty">没有检测到可切换明暗的主题。</p>`;
+
+  const singleTsBlock = singleThemes.length
+    ? `<div class="sub-block">
+    <h3>TS 单版本主题</h3>
+    <div class="grid">${singleThemes
+      .sort(byThemeName)
+      .map((theme) => renderStaticCard(theme, layout, flags))
+      .join('\n')}</div>
+  </div>`
+    : '';
+
+  const customCards = customThemes.length
+    ? customThemes
+        .filter((theme) => !isDarkTheme(theme))
+        .sort(byThemeName)
+        .map((theme) => renderStaticCard(theme, layout, flags))
+        .join('\n')
+    : `<p class="empty">没有检测到手写 YAML 主题。</p>`;
+
+  const repository = resolveRepository();
+  const now = new Date().toLocaleString('zh-CN', { hour12: false });
+
+  const html = fillTemplate(template, {
+    switchable_cards: switchableCards,
+    custom_cards: customCards,
+    ts_single_block: singleTsBlock,
+    schema_count: String(allThemes.length),
+    version: String(pkgInfo.version),
+    latest_release_url: `https://github.com/${repository}/releases`,
+    release_url: `https://github.com/${repository}/releases`,
+    switchable_count: String(switchablePairs.length),
+    ts_generated_count: String(tsThemes.length),
+    custom_yaml_count: String(customThemes.filter((theme) => !isDarkTheme(theme)).length),
+    inline_preedit: flags.inlinePreedit ? '开启' : '关闭',
+    generated_at: escapeHtml(now),
+  });
 
   writeFileSync(path.join(import.meta.dirname, '..', 'assets', 'demo.html'), html);
 };
 
+function fillTemplate(input: string, values: Record<string, string>): string {
+  let output = input;
+  for (const [key, value] of Object.entries(values)) {
+    output = output.replaceAll(`{{${key}}}`, value);
+  }
+  return output;
+}
+
+function loadCustomSchemaIds(): Set<string> {
+  const ids = new Set<string>();
+  try {
+    const content = readFileSync(path.join(import.meta.dirname, 'special-schemas.yaml'), 'utf-8');
+    const parsed = toRecord(parse(content));
+    for (const key of Object.keys(parsed)) {
+      if (key.startsWith(SCHEMA_PREFIX)) {
+        ids.add(key.slice(SCHEMA_PREFIX.length));
+      } else {
+        ids.add(key);
+      }
+    }
+  } catch {}
+  return ids;
+}
+
+function groupSwitchableThemes(themes: ThemeConfig[]): { switchablePairs: ThemePair[]; singleThemes: ThemeConfig[] } {
+  const map = new Map<string, { light?: ThemeConfig; dark?: ThemeConfig }>();
+  for (const theme of themes) {
+    const baseId = getThemeBaseId(theme);
+    const current = map.get(baseId) || {};
+    if (isDarkTheme(theme)) {
+      current.dark = theme;
+    } else {
+      current.light = theme;
+    }
+    map.set(baseId, current);
+  }
+
+  const switchablePairs: ThemePair[] = [];
+  const singleThemes: ThemeConfig[] = [];
+
+  for (const [id, item] of map.entries()) {
+    if (item.light && item.dark) {
+      switchablePairs.push({ id, light: item.light, dark: item.dark });
+      continue;
+    }
+    if (item.light) {
+      singleThemes.push(item.light);
+    } else if (item.dark) {
+      singleThemes.push(item.dark);
+    }
+  }
+
+  return { switchablePairs, singleThemes };
+}
+
 function toThemeConfig(key: string, config: PatchMap): ThemeConfig {
-  const id = key.slice('preset_color_schemes/'.length);
+  const id = key.slice(SCHEMA_PREFIX.length);
   return {
     id,
     name: asString(config.name, id),
@@ -126,34 +249,49 @@ function resolveLayout(config: PatchMap): LayoutConfig {
   };
 }
 
-function renderCard(theme: ThemeConfig, layout: LayoutConfig, flags: RenderFlags): string {
-  const style = [
-    `--panel-text:${theme.textColor}`,
-    `--candidate-text:${theme.candidateTextColor}`,
-    `--comment-text:${theme.commentTextColor}`,
-    `--label-text:${theme.labelColor}`,
-    `--panel-bg:${theme.backColor}`,
-    `--panel-border:${theme.borderColor}`,
-    `--panel-shadow:${theme.shadowColor}`,
-    `--hilited-text:${theme.hilitedTextColor}`,
-    `--hilited-bg:${theme.hilitedBackColor}`,
-    `--hilited-comment:${theme.hilitedCommentTextColor}`,
-    `--hilited-label:${theme.hilitedLabelColor}`,
-    `--active-text:${theme.hilitedCandidateTextColor}`,
-    `--active-bg:${theme.hilitedCandidateBackColor}`,
-    `--active-label:${theme.hilitedCandidateLabelColor}`,
-    `--nextpage:${theme.nextpageColor}`,
-    `--prevpage:${theme.prevpageColor}`,
-    `--candidate-radius:${layout.candidateRadius}px`,
-    `--corner-radius:${layout.cornerRadius}px`,
-    `--hilite-padding-x:${layout.hilitePaddingX}px`,
-    `--hilite-padding-y:${layout.hilitePaddingY}px`,
-  ].join(';');
+function renderSwitchableCard(pair: ThemePair, layout: LayoutConfig, flags: RenderFlags): string {
+  const style = [...buildModeStyleVariables(pair.light, pair.dark), ...buildLayoutVariables(layout)].join(';');
+
+  const name = escapeHtml(pair.light.name);
+  const id = escapeHtml(pair.id);
+  const lightColor = pair.light.hilitedCandidateBackColor.toUpperCase();
+  const darkColor = pair.dark.hilitedCandidateBackColor.toUpperCase();
+
+  return `<article class="theme-card switch-card" style="${style}">
+  <header class="theme-head">
+    <h3 class="theme-name">${name}</h3>
+    <code class="theme-id">${id}</code>
+  </header>
+  ${renderPanel(flags)}
+  <div class="theme-meta">
+    <span class="meta-chip">亮 ${lightColor}</span>
+    <span class="meta-chip">暗 ${darkColor}</span>
+  </div>
+</article>`;
+}
+
+function renderStaticCard(theme: ThemeConfig, layout: LayoutConfig, flags: RenderFlags): string {
+  const style = [...buildSingleStyleVariables(theme), ...buildLayoutVariables(layout)].join(';');
 
   const name = escapeHtml(theme.name);
   const id = escapeHtml(theme.id);
   const hlColor = theme.hilitedCandidateBackColor.toUpperCase();
   const backColor = theme.backColor.toUpperCase();
+
+  return `<article class="theme-card static-card" style="${style}">
+  <header class="theme-head">
+    <h3 class="theme-name">${name}</h3>
+    <code class="theme-id">${id}</code>
+  </header>
+  ${renderPanel(flags)}
+  <div class="theme-meta">
+    <span class="meta-chip">面板 ${backColor}</span>
+    <span class="meta-chip">高亮 ${hlColor}</span>
+  </div>
+</article>`;
+}
+
+function renderPanel(flags: RenderFlags): string {
   const preedit = flags.inlinePreedit
     ? `<div class="preedit-row">
       <span class="preedit-label">拼</span>
@@ -161,16 +299,10 @@ function renderCard(theme: ThemeConfig, layout: LayoutConfig, flags: RenderFlags
       <span class="preedit-comment">紧凑胶囊</span>
     </div>`
     : '';
-  const rowClass = flags.horizontal ? 'candidate-row' : 'candidate-row candidate-row-vertical';
 
-  return `<article class="theme-card" style="${style}">
-  <header class="theme-head">
-    <h2 class="theme-name">${name}</h2>
-    <code class="theme-id">${id}</code>
-  </header>
-  <div class="weasel-panel">
+  return `<div class="weasel-panel">
     ${preedit}
-    <div class="${rowClass}">
+    <div class="candidate-row candidate-row-group">
       <span class="candidate candidate-active"><em>1</em><span>紧凑</span></span>
       <span class="candidate"><em>2</em><span>胶囊</span></span>
       <span class="candidate"><em>3</em><span>样式</span></span>
@@ -181,12 +313,52 @@ function renderCard(theme: ThemeConfig, layout: LayoutConfig, flags: RenderFlags
       <span class="hint">CapsLock 切换中英</span>
       <span class="pager next">▶</span>
     </div>
-  </div>
-  <div class="theme-meta">
-    <span class="meta-chip">面板 ${backColor}</span>
-    <span class="meta-chip">高亮 ${hlColor}</span>
-  </div>
-</article>`;
+  </div>`;
+}
+
+function buildModeStyleVariables(light: ThemeConfig, dark: ThemeConfig): string[] {
+  const list: string[] = [];
+  for (const [name, key] of COLOR_KEYS) {
+    list.push(`--${name}-light:${light[key]}`);
+    list.push(`--${name}-dark:${dark[key]}`);
+  }
+  return list;
+}
+
+function buildSingleStyleVariables(theme: ThemeConfig): string[] {
+  const list: string[] = [];
+  for (const [name, key] of COLOR_KEYS) {
+    list.push(`--${name}:${theme[key]}`);
+  }
+  return list;
+}
+
+function buildLayoutVariables(layout: LayoutConfig): string[] {
+  return [
+    `--candidate-radius:${layout.candidateRadius}px`,
+    `--corner-radius:${layout.cornerRadius}px`,
+    `--hilite-padding-x:${layout.hilitePaddingX}px`,
+    `--hilite-padding-y:${layout.hilitePaddingY}px`,
+  ];
+}
+
+function getThemeBaseId(theme: ThemeConfig): string {
+  if (isDarkTheme(theme) && theme.id.endsWith('_dark')) {
+    return theme.id.slice(0, -5);
+  }
+  return theme.id;
+}
+
+function isDarkTheme(theme: ThemeConfig): boolean {
+  return theme.name.endsWith('「暗」');
+}
+
+function byThemeName(a: ThemeConfig, b: ThemeConfig): number {
+  return a.name.localeCompare(b.name, 'zh-CN');
+}
+
+function byPairName(a: ThemePair, b: ThemePair): number {
+  return a.light.name.localeCompare(b.light.name, 'zh-CN');
 }
 
 function asString(value: unknown, fallback: string): string {

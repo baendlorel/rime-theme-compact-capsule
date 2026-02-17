@@ -12,7 +12,7 @@
       --text-main: #0f172a;
       --text-sub: #4b5d79;
       --card-border: rgba(148, 163, 184, 0.32);
-      --card-bg: rgba(255, 255, 255, 0.82);
+      --card-bg: rgba(255, 255, 255, 0.84);
       --card-shadow: rgba(15, 23, 42, 0.08);
       --btn-bg: #1d4ed8;
       --btn-bg-hover: #1e40af;
@@ -28,7 +28,7 @@
       min-height: 100vh;
       padding: 28px;
       background:
-        radial-gradient(circle at 8% 2%, #ffffff 0%, rgba(255, 255, 255, 0.32) 28%, rgba(255, 255, 255, 0) 52%),
+        radial-gradient(circle at 8% 2%, #ffffff 0%, rgba(255, 255, 255, 0.28) 26%, rgba(255, 255, 255, 0) 52%),
         linear-gradient(155deg, var(--page-top), var(--page-bottom));
       font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
       color: var(--text-main);
@@ -74,6 +74,7 @@
       font-size: 13px;
       font-weight: 600;
       text-decoration: none;
+      cursor: pointer;
       transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
     }
 
@@ -94,11 +95,50 @@
       background: var(--btn-bg-hover);
     }
 
+    .section {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.26);
+      background: rgba(255, 255, 255, 0.55);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.2;
+    }
+
+    .section-head p {
+      margin: 4px 0 0;
+      color: var(--text-sub);
+      font-size: 12px;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
       gap: 14px;
       align-items: start;
+    }
+
+    .sub-block {
+      margin-top: 12px;
+    }
+
+    .sub-block h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: #334155;
     }
 
     .theme-card {
@@ -108,7 +148,7 @@
       background: var(--card-bg);
       box-shadow: 0 10px 22px var(--card-shadow);
       display: grid;
-      gap: 9px;
+      gap: 8px;
       transition: transform 0.16s ease, box-shadow 0.16s ease;
     }
 
@@ -185,13 +225,11 @@
       display: flex;
       align-items: stretch;
       padding: 6px;
-      gap: 6px;
-      overflow-x: auto;
     }
 
-    .candidate-row-vertical {
-      flex-direction: column;
-      overflow-x: visible;
+    .candidate-row-group {
+      gap: 0;
+      overflow-x: auto;
     }
 
     .candidate {
@@ -199,14 +237,23 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      border-radius: var(--candidate-radius);
-      border: 1px solid rgba(148, 163, 184, 0.38);
-      padding: 4px 8px;
-      background: rgba(255, 255, 255, 0.6);
+      border: 0;
+      padding: 4px 10px;
+      background: var(--candidate-bg, rgba(255, 255, 255, 0.62));
       color: var(--candidate-text);
       font-size: 13px;
       line-height: 1;
       white-space: nowrap;
+      border-radius: 0;
+      position: relative;
+    }
+
+    .candidate:first-child {
+      border-radius: var(--candidate-radius) 0 0 var(--candidate-radius);
+    }
+
+    .candidate:last-child {
+      border-radius: 0 var(--candidate-radius) var(--candidate-radius) 0;
     }
 
     .candidate em {
@@ -217,10 +264,10 @@
 
     .candidate-active {
       padding: var(--hilite-padding-y) var(--hilite-padding-x);
-      border-color: transparent;
       background: var(--active-bg);
       color: var(--active-text);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+      z-index: 1;
     }
 
     .candidate-active em {
@@ -272,6 +319,52 @@
       font-size: 11px;
     }
 
+    .empty {
+      margin: 0;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .switchable-section[data-mode="light"] .switch-card {
+      --panel-text: var(--panel-text-light);
+      --candidate-text: var(--candidate-text-light);
+      --comment-text: var(--comment-text-light);
+      --label-text: var(--label-text-light);
+      --panel-bg: var(--panel-bg-light);
+      --panel-border: var(--panel-border-light);
+      --panel-shadow: var(--panel-shadow-light);
+      --hilited-text: var(--hilited-text-light);
+      --hilited-bg: var(--hilited-bg-light);
+      --hilited-comment: var(--hilited-comment-light);
+      --hilited-label: var(--hilited-label-light);
+      --active-text: var(--active-text-light);
+      --active-bg: var(--active-bg-light);
+      --active-label: var(--active-label-light);
+      --nextpage: var(--nextpage-light);
+      --prevpage: var(--prevpage-light);
+      --candidate-bg: rgba(255, 255, 255, 0.62);
+    }
+
+    .switchable-section[data-mode="dark"] .switch-card {
+      --panel-text: var(--panel-text-dark);
+      --candidate-text: var(--candidate-text-dark);
+      --comment-text: var(--comment-text-dark);
+      --label-text: var(--label-text-dark);
+      --panel-bg: var(--panel-bg-dark);
+      --panel-border: var(--panel-border-dark);
+      --panel-shadow: var(--panel-shadow-dark);
+      --hilited-text: var(--hilited-text-dark);
+      --hilited-bg: var(--hilited-bg-dark);
+      --hilited-comment: var(--hilited-comment-dark);
+      --hilited-label: var(--hilited-label-dark);
+      --active-text: var(--active-text-dark);
+      --active-bg: var(--active-bg-dark);
+      --active-label: var(--active-label-dark);
+      --nextpage: var(--nextpage-dark);
+      --prevpage: var(--prevpage-dark);
+      --candidate-bg: rgba(76, 85, 93, 0.8);
+    }
+
     @media (max-width: 760px) {
       body {
         padding: 14px;
@@ -288,6 +381,11 @@
       .hero h1 {
         font-size: 20px;
       }
+
+      .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
@@ -295,17 +393,59 @@
 <body>
   <section class="hero">
     <h1>紧凑胶囊系列样式预览</h1>
-    <p>本页面从构建后的 patch 文件自动解析全部 schema（包含 special schema），并用 HTML 模拟小狼毫候选栏。</p>
+    <p>本页面从构建后的 patch 文件解析全部 schema，自动区分 TS 生成的可切换明暗主题和手写 YAML 主题。</p>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="{{latest_release_url}}" target="_blank" rel="noopener noreferrer">下载最新版本</a>
+      <a class="btn btn-primary" href="{{latest_release_url}}" target="_blank" rel="noopener noreferrer">前往 Release 下载</a>
       <a class="btn" href="{{release_url}}" target="_blank" rel="noopener noreferrer">查看所有发布</a>
     </div>
-    <p>共 {{schema_count}} 套主题 · 当前构建版本 {{version}} · 候选排列 {{candidate_layout}} · 预编辑 {{inline_preedit}} · 生成时间 {{generated_at}}</p>
+    <p>总计 {{schema_count}} 套主题 · TS 生成 {{ts_generated_count}} · 手写 YAML {{custom_yaml_count}} · 预编辑 {{inline_preedit}} · 生成时间 {{generated_at}}</p>
   </section>
 
-  <section class="grid">
-    {{cards}}
+  <section class="section switchable-section" data-switchable-section data-mode="light">
+    <div class="section-head">
+      <div>
+        <h2>TS 生成主题（可切换明暗）</h2>
+      </div>
+      <button class="btn" type="button" data-mode-toggle>切换到暗色</button>
+    </div>
+    <div class="grid">
+      {{switchable_cards}}
+    </div>
+    {{ts_single_block}}
   </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>手写 YAML 主题</h2>
+      </div>
+    </div>
+    <div class="grid">
+      {{custom_cards}}
+    </div>
+  </section>
+
+  <script>
+    (() => {
+      const section = document.querySelector('[data-switchable-section]');
+      const button = document.querySelector('[data-mode-toggle]');
+      if (!section || !button) return;
+
+      let mode = section.getAttribute('data-mode') || 'light';
+
+      const render = () => {
+        section.setAttribute('data-mode', mode);
+        button.textContent = mode === 'light' ? '切换到暗色' : '切换到亮色';
+      };
+
+      button.addEventListener('click', () => {
+        mode = mode === 'light' ? 'dark' : 'light';
+        render();
+      });
+
+      render();
+    })();
+  </script>
 </body>
 
 </html>

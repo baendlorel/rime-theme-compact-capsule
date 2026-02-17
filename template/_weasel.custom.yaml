@@ -8,7 +8,7 @@ patch:
     wsl.exe: { ascii_mode: true }
   'preset_color_schemes/compact_capsule_blue':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
-    name: '紧凑胶囊蓝'
+    name: '小胶囊蓝'
     text_color: 0x292521
     back_color: 0xE5FFFFFF
     border_color: 0x00000000
@@ -19,7 +19,7 @@ patch:
     hilited_candidate_back_color: 0xE5D07710
   'preset_color_schemes/compact_capsule_blue_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
-    name: '紧凑胶囊蓝（暗黑）'
+    name: '小胶囊蓝（暗黑）'
     text_color: 0xffffff
     back_color: 0xDD5D554C
     border_color: 0x00000000
@@ -37,7 +37,7 @@ patch:
     hilited_candidate_back_color: 0xE5006CEF
     hilited_candidate_text_color: 0xFFFFFF
     hilited_text_color: 0xffffff
-    name: '紧凑胶囊橙（暗黑）'
+    name: '小胶囊橙（暗黑）'
     text_color: 0xffffff
   'preset_color_schemes/compact_capsule_red_dark':
     author: 'KasukabeTsumugi <futami16237@gmail.com>'
@@ -48,7 +48,7 @@ patch:
     hilited_candidate_back_color: 0xE54232D2
     hilited_candidate_text_color: 0xFFFFFF
     hilited_text_color: 0xffffff
-    name: '紧凑胶囊红（暗黑）'
+    name: '小胶囊红（暗黑）'
     text_color: 0xffffff
   'style/color_scheme': compact_capsule_red_dark
   'stype/horizontal': true
