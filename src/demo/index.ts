@@ -257,20 +257,20 @@ function renderSwitchableCard(pair: ThemePair, layout: LayoutConfig, flags: Rend
   const style = [...buildModeStyleVariables(pair.light, pair.dark), ...buildLayoutVariables(layout)].join(';');
 
   const name = escapeHtml(pair.light.name);
-  const id = escapeHtml(pair.id);
+  const lightPanelColor = pair.light.backColor.toUpperCase().replace(/CC$/g, '');
+  const darkPanelColor = pair.dark.backColor.toUpperCase().replace(/CC$/g, '');
   const lightColor = pair.light.hilitedCandidateBackColor.toUpperCase().replace(/CC$/g, '');
   const darkColor = pair.dark.hilitedCandidateBackColor.toUpperCase().replace(/CC$/g, '');
 
   return h('article', { className: 'theme-card switch-card', style }, [
     h('header', { className: 'theme-head' }, [
       h('h3', { className: 'theme-name' }, [name]),
-      h('code', { className: 'theme-id' }, [id]),
+      h('div', { className: 'theme-info' }, [
+        h('span', {}, [`面板 L ${lightPanelColor} / D ${darkPanelColor}`]),
+        h('span', {}, [`高亮 L ${lightColor} / D ${darkColor}`]),
+      ]),
     ]),
     renderPanel(flags),
-    h('div', { className: 'theme-meta' }, [
-      h('span', { className: 'meta-chip' }, [`亮 ${lightColor}`]),
-      h('span', { className: 'meta-chip' }, [`暗 ${darkColor}`]),
-    ]),
   ]).toString();
 }
 
@@ -278,20 +278,18 @@ function renderStaticCard(theme: ThemeConfig, layout: LayoutConfig, flags: Rende
   const style = [...buildSingleStyleVariables(theme), ...buildLayoutVariables(layout)].join(';');
 
   const name = escapeHtml(theme.name);
-  const id = escapeHtml(theme.id);
   const hlColor = theme.hilitedCandidateBackColor.toUpperCase().replace(/CC$/g, '');
   const backColor = theme.backColor.toUpperCase().replace(/CC$/g, '');
 
   return h('article', { className: 'theme-card static-card', style }, [
     h('header', { className: 'theme-head' }, [
       h('h3', { className: 'theme-name' }, [name]),
-      h('code', { className: 'theme-id' }, [id]),
+      h('div', { className: 'theme-info' }, [
+        h('span', {}, [`面板 ${backColor}`]),
+        h('span', {}, [`高亮 ${hlColor}`]),
+      ]),
     ]),
     renderPanel(flags),
-    h('div', { className: 'theme-meta' }, [
-      h('span', { className: 'meta-chip' }, [`面板 ${backColor}`]),
-      h('span', { className: 'meta-chip' }, [`高亮 ${hlColor}`]),
-    ]),
   ]).toString();
 }
 
