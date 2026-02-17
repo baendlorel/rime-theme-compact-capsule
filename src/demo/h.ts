@@ -1,22 +1,22 @@
 class H {
   tag: string;
   attr: any;
-  children: (string | H)[] = [];
-  constructor(tag: string, attr: any) {
+  children: any[];
+  constructor(tag: string, attr: any, children: any[] = []) {
     this.tag = tag;
     this.attr = attr;
+    this.children = children;
   }
 
   toString(): string {
     const className = this.attr.className || '';
     const style = this.attr.style || '';
-    const children = this.children.map((c) => c.toString()).join('');
+    const children = this.children
+      .filter(Boolean)
+      .map((c) => c?.toString() ?? String(c))
+      .join('');
     return `<${this.tag} class="${className}" style="${style}">${children}</${this.tag}>`;
   }
 }
 
-export const h = (tag: string, attr: any, children: (string | H)[]): H => {
-  const element = new H(tag, attr);
-  element.children = children;
-  return element;
-};
+export const h = (tag: string, attr: any, children: any[]) => new H(tag, attr, children);
