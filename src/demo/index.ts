@@ -108,6 +108,8 @@ export const demo = () => {
   }
 
   const { switchablePairs, singleThemes } = groupSwitchableThemes(tsThemes);
+  const { switchablePairs: customSwitchablePairs, singleThemes: customSingleThemes } =
+    groupSwitchableThemes(customThemes);
 
   const switchableCards = switchablePairs.length
     ? switchablePairs
@@ -127,13 +129,23 @@ export const demo = () => {
       ]).toString()
     : '';
 
-  const customCards = customThemes.length
-    ? customThemes
-        .filter((theme) => !isDarkTheme(theme))
-        .sort(byThemeName)
-        .map((theme) => renderStaticCard(theme, layout, flags))
+  const customCards = customSwitchablePairs.length
+    ? customSwitchablePairs
+        .sort(byPairName)
+        .map((pair) => renderSwitchableCard(pair, layout, flags))
         .join('\n')
     : `<p class="empty">没有检测到手写 YAML 主题。</p>`;
+
+  const customSingleBlock = customSingleThemes.length
+    ? h('div', { className: 'sub-block' }, [
+        h('h3', {}, ['手写 YAML 单版本主题']),
+        h(
+          'div',
+          { className: 'grid' },
+          customSingleThemes.sort(byThemeName).map((theme) => renderStaticCard(theme, layout, flags)),
+        ),
+      ]).toString()
+    : '';
 
   const repository = resolveRepository();
   const now = new Date().toLocaleString('zh-CN', { hour12: false });
@@ -142,13 +154,14 @@ export const demo = () => {
     switchable_cards: switchableCards,
     custom_cards: customCards,
     ts_single_block: singleTsBlock,
+    custom_single_block: customSingleBlock,
     schema_count: String(allThemes.length),
     version: String(pkgInfo.version),
     latest_release_url: `https://github.com/${repository}/releases`,
     release_url: `https://github.com/${repository}/releases`,
     switchable_count: String(switchablePairs.length),
     ts_generated_count: String(tsThemes.length),
-    custom_yaml_count: String(customThemes.filter((theme) => !isDarkTheme(theme)).length),
+    custom_yaml_count: String(customSwitchablePairs.length + customSingleThemes.length),
     inline_preedit: flags.inlinePreedit ? '开启' : '关闭',
     generated_at: escapeHtml(now),
   });
@@ -257,6 +270,7 @@ function renderSwitchableCard(pair: ThemePair, layout: LayoutConfig, flags: Rend
   const style = [...buildModeStyleVariables(pair.light, pair.dark), ...buildLayoutVariables(layout)].join(';');
 
   const name = escapeHtml(pair.light.name);
+  const id = escapeHtml(pair.id);
   const lightPanelColor = pair.light.backColor.toUpperCase().replace(/CC$/g, '');
   const darkPanelColor = pair.dark.backColor.toUpperCase().replace(/CC$/g, '');
   const lightColor = pair.light.hilitedCandidateBackColor.toUpperCase().replace(/CC$/g, '');
@@ -265,12 +279,13 @@ function renderSwitchableCard(pair: ThemePair, layout: LayoutConfig, flags: Rend
   return h('article', { className: 'theme-card switch-card', style }, [
     h('header', { className: 'theme-head' }, [
       h('h3', { className: 'theme-name' }, [name]),
-      h('div', { className: 'theme-info' }, [
-        h('span', {}, [`面板 L ${lightPanelColor} / D ${darkPanelColor}`]),
-        h('span', {}, [`高亮 L ${lightColor} / D ${darkColor}`]),
-      ]),
+      h('code', { className: 'badge badge-id' }, [id]),
     ]),
     renderPanel(flags),
+    h('div', { className: 'theme-badges' }, [
+      h('span', { className: 'badge badge-color' }, [`面板 L ${lightPanelColor} / D ${darkPanelColor}`]),
+      h('span', { className: 'badge badge-color' }, [`高亮 L ${lightColor} / D ${darkColor}`]),
+    ]),
   ]).toString();
 }
 
@@ -278,18 +293,20 @@ function renderStaticCard(theme: ThemeConfig, layout: LayoutConfig, flags: Rende
   const style = [...buildSingleStyleVariables(theme), ...buildLayoutVariables(layout)].join(';');
 
   const name = escapeHtml(theme.name);
+  const id = escapeHtml(theme.id);
   const hlColor = theme.hilitedCandidateBackColor.toUpperCase().replace(/CC$/g, '');
   const backColor = theme.backColor.toUpperCase().replace(/CC$/g, '');
 
   return h('article', { className: 'theme-card static-card', style }, [
     h('header', { className: 'theme-head' }, [
       h('h3', { className: 'theme-name' }, [name]),
-      h('div', { className: 'theme-info' }, [
-        h('span', {}, [`面板 ${backColor}`]),
-        h('span', {}, [`高亮 ${hlColor}`]),
-      ]),
+      h('code', { className: 'badge badge-id' }, [id]),
     ]),
     renderPanel(flags),
+    h('div', { className: 'theme-badges' }, [
+      h('span', { className: 'badge badge-color' }, [`面板 ${backColor}`]),
+      h('span', { className: 'badge badge-color' }, [`高亮 ${hlColor}`]),
+    ]),
   ]).toString();
 }
 
@@ -307,6 +324,7 @@ function renderPanel(flags: RenderFlags) {
     renderCandidate(2, '胶囊'),
     renderCandidate(3, '样式'),
     renderCandidate(4, '预览'),
+    renderCandidate(5, '测试'),
   ]);
 }
 

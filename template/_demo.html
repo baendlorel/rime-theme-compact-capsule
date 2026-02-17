@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>紧凑胶囊主题预览</title>
+  <title>小胶囊主题预览</title>
   <style>
     :root {
       --page-top: #f4f7fb;
@@ -95,6 +95,16 @@
       background: var(--btn-bg-hover);
     }
 
+    .floating-controls {
+      position: sticky;
+      top: 12px;
+      z-index: 20;
+      display: flex;
+      justify-content: flex-start;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
     .section {
       margin-top: 14px;
       padding: 12px;
@@ -146,7 +156,6 @@
       border-radius: 14px;
       border: 1px solid var(--card-border);
       background: var(--card-bg);
-
       box-shadow: 0 10px 22px var(--card-shadow);
       display: grid;
       gap: 8px;
@@ -160,9 +169,9 @@
 
     .theme-head {
       display: flex;
-      align-items: baseline;
+      align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      gap: 10px;
     }
 
     .theme-name {
@@ -172,53 +181,33 @@
       color: #111827;
     }
 
-    .theme-info {
+    .theme-badges {
       display: flex;
-      flex-direction: column;
-      gap: 2px;
-      align-items: flex-end;
-      color: #475569;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.42);
+      background: rgba(241, 245, 249, 0.72);
       font-family: "JetBrains Mono", "Consolas", monospace;
-      font-size: 10px;
+      font-size: 11px;
+      line-height: 1.2;
+    }
+
+    .badge-id {
+      color: #334155;
+      overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    .weasel-panel {
-      border-radius: var(--corner-radius);
-      border: 1px solid var(--panel-border);
-      background: var(--panel-bg);
-      box-shadow: 0 10px 16px var(--panel-shadow);
-      color: var(--panel-text);
-      overflow: hidden;
-    }
-
-    .preedit-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      min-height: 30px;
-      padding: 6px 10px;
-      border-bottom: 1px dashed rgba(148, 163, 184, 0.35);
-      background: var(--hilited-bg);
-      color: var(--hilited-text);
-      font-size: 13px;
-    }
-
-    .preedit-label {
-      color: var(--hilited-label);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .preedit-text {
-      font-weight: 600;
-      letter-spacing: 0.01em;
-    }
-
-    .preedit-comment {
-      margin-left: auto;
-      color: var(--hilited-comment);
-      font-size: 12px;
+    .badge-color {
+      color: #64748b;
     }
 
     .candidate-row {
@@ -275,57 +264,13 @@
       font-weight: 700;
     }
 
-    .panel-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-      padding: 0 9px 8px;
-      font-size: 12px;
-    }
-
-    .hint {
-      color: var(--comment-text);
-    }
-
-    .pager {
-      font-weight: 700;
-      user-select: none;
-    }
-
-    .pager.prev {
-      color: var(--prevpage);
-    }
-
-    .pager.next {
-      color: var(--nextpage);
-    }
-
-    .theme-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .meta-chip {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 7px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.38);
-      background: rgba(248, 250, 252, 0.86);
-      color: #475569;
-      font-family: "JetBrains Mono", "Consolas", monospace;
-      font-size: 11px;
-    }
-
     .empty {
       margin: 0;
       color: #64748b;
       font-size: 13px;
     }
 
-    .switchable-section[data-mode="light"] .switch-card {
+    body[data-mode="light"] .switch-card {
       --panel-text: var(--panel-text-light);
       --candidate-text: var(--candidate-text-light);
       --comment-text: var(--comment-text-light);
@@ -345,7 +290,7 @@
       --candidate-bg: rgba(255, 255, 255, 0.62);
     }
 
-    .switchable-section[data-mode="dark"] .switch-card {
+    body[data-mode="dark"] .switch-card {
       --panel-text: var(--panel-text-dark);
       --candidate-text: var(--candidate-text-dark);
       --comment-text: var(--comment-text-dark);
@@ -386,27 +331,32 @@
         flex-direction: column;
         align-items: flex-start;
       }
+
+      .floating-controls {
+        top: 8px;
+      }
     }
   </style>
 </head>
 
-<body>
+<body data-mode="light">
   <section class="hero">
-    <h1>紧凑胶囊系列样式预览</h1>
+    <h1>小胶囊系列样式预览</h1>
     <p>本页面从构建后的 patch 文件解析全部 schema，自动区分 TS 生成的可切换明暗主题和手写 YAML 主题。</p>
-    <div class="hero-actions">
+    <div class="hero-actions floating-controls">
       <a class="btn btn-primary" href="{{latest_release_url}}" target="_blank" rel="noopener noreferrer">前往 Release 下载</a>
       <a class="btn" href="{{release_url}}" target="_blank" rel="noopener noreferrer">查看所有发布</a>
+      <button class="btn" type="button" data-mode-toggle>切换到暗色</button>
     </div>
     <p>总计 {{schema_count}} 套主题 · TS 生成 {{ts_generated_count}} · 手写 YAML {{custom_yaml_count}} · 预编辑 {{inline_preedit}} · 生成时间 {{generated_at}}</p>
   </section>
 
-  <section class="section switchable-section" data-switchable-section data-mode="light">
+
+  <section class="section switchable-section">
     <div class="section-head">
       <div>
         <h2>TS 生成主题（可切换明暗）</h2>
       </div>
-      <button class="btn" type="button" data-mode-toggle>切换到暗色</button>
     </div>
     <div class="grid">
       {{switchable_cards}}
@@ -423,22 +373,23 @@
     <div class="grid">
       {{custom_cards}}
     </div>
+    {{custom_single_block}}
   </section>
 
   <script>
     (() => {
-      const section = document.querySelector('[data-switchable-section]');
-      const button = document.querySelector('[data-mode-toggle]');
-      if (!section || !button) return;
+      const root = document.body;
+      const modeButton = document.querySelector('[data-mode-toggle]');
+      if (!root || !modeButton) return;
 
-      let mode = section.getAttribute('data-mode') || 'light';
+      let mode = root.getAttribute('data-mode') || 'light';
 
       const render = () => {
-        section.setAttribute('data-mode', mode);
-        button.textContent = mode === 'light' ? '切换到暗色' : '切换到亮色';
+        root.setAttribute('data-mode', mode);
+        modeButton.textContent = mode === 'light' ? '切换到暗色' : '切换到亮色';
       };
 
-      button.addEventListener('click', () => {
+      modeButton.addEventListener('click', () => {
         mode = mode === 'light' ? 'dark' : 'light';
         render();
       });
