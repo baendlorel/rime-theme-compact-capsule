@@ -117,18 +117,14 @@ export const demo = () => {
     : `<p class="empty">没有检测到可切换明暗的主题。</p>`;
 
   const singleTsBlock = singleThemes.length
-    ? h(
-        'div',
-        { className: 'sub-block' },
-        [
-          h('h3', {}, ['TS 单版本主题']),
-          h(
-            'div',
-            { className: 'grid' },
-            singleThemes.sort(byThemeName).map((theme) => renderStaticCard(theme, layout, flags)),
-          ),
-        ],
-      ).toString()
+    ? h('div', { className: 'sub-block' }, [
+        h('h3', {}, ['TS 单版本主题']),
+        h(
+          'div',
+          { className: 'grid' },
+          singleThemes.sort(byThemeName).map((theme) => renderStaticCard(theme, layout, flags)),
+        ),
+      ]).toString()
     : '';
 
   const customCards = customThemes.length
@@ -262,29 +258,20 @@ function renderSwitchableCard(pair: ThemePair, layout: LayoutConfig, flags: Rend
 
   const name = escapeHtml(pair.light.name);
   const id = escapeHtml(pair.id);
-  const lightColor = pair.light.hilitedCandidateBackColor.toUpperCase();
-  const darkColor = pair.dark.hilitedCandidateBackColor.toUpperCase();
+  const lightColor = pair.light.hilitedCandidateBackColor.toUpperCase().replace(/CC$/g, '');
+  const darkColor = pair.dark.hilitedCandidateBackColor.toUpperCase().replace(/CC$/g, '');
 
-  return h(
-    'article',
-    { className: 'theme-card switch-card', style },
-    [
-      h(
-        'header',
-        { className: 'theme-head' },
-        [h('h3', { className: 'theme-name' }, [name]), h('code', { className: 'theme-id' }, [id])],
-      ),
-      renderPanel(flags),
-      h(
-        'div',
-        { className: 'theme-meta' },
-        [
-          h('span', { className: 'meta-chip' }, [`亮 ${lightColor}`]),
-          h('span', { className: 'meta-chip' }, [`暗 ${darkColor}`]),
-        ],
-      ),
-    ],
-  ).toString();
+  return h('article', { className: 'theme-card switch-card', style }, [
+    h('header', { className: 'theme-head' }, [
+      h('h3', { className: 'theme-name' }, [name]),
+      h('code', { className: 'theme-id' }, [id]),
+    ]),
+    renderPanel(flags),
+    h('div', { className: 'theme-meta' }, [
+      h('span', { className: 'meta-chip' }, [`亮 ${lightColor}`]),
+      h('span', { className: 'meta-chip' }, [`暗 ${darkColor}`]),
+    ]),
+  ]).toString();
 }
 
 function renderStaticCard(theme: ThemeConfig, layout: LayoutConfig, flags: RenderFlags): string {
@@ -295,76 +282,39 @@ function renderStaticCard(theme: ThemeConfig, layout: LayoutConfig, flags: Rende
   const hlColor = theme.hilitedCandidateBackColor.toUpperCase().replace(/CC$/g, '');
   const backColor = theme.backColor.toUpperCase().replace(/CC$/g, '');
 
-  return h(
-    'article',
-    { className: 'theme-card static-card', style },
-    [
-      h(
-        'header',
-        { className: 'theme-head' },
-        [h('h3', { className: 'theme-name' }, [name]), h('code', { className: 'theme-id' }, [id])],
-      ),
-      renderPanel(flags),
-      h(
-        'div',
-        { className: 'theme-meta' },
-        [
-          h('span', { className: 'meta-chip' }, [`面板 ${backColor}`]),
-          h('span', { className: 'meta-chip' }, [`高亮 ${hlColor}`]),
-        ],
-      ),
-    ],
-  ).toString();
+  return h('article', { className: 'theme-card static-card', style }, [
+    h('header', { className: 'theme-head' }, [
+      h('h3', { className: 'theme-name' }, [name]),
+      h('code', { className: 'theme-id' }, [id]),
+    ]),
+    renderPanel(flags),
+    h('div', { className: 'theme-meta' }, [
+      h('span', { className: 'meta-chip' }, [`面板 ${backColor}`]),
+      h('span', { className: 'meta-chip' }, [`高亮 ${hlColor}`]),
+    ]),
+  ]).toString();
 }
 
 function renderPanel(flags: RenderFlags) {
   const preedit = flags.inlinePreedit
-    ? h(
-        'div',
-        { className: 'preedit-row' },
-        [
-          h('span', { className: 'preedit-label' }, ['拼']),
-          h('span', { className: 'preedit-text' }, ['jin cou jiao nang']),
-          h('span', { className: 'preedit-comment' }, ['紧凑胶囊']),
-        ],
-      )
+    ? h('div', { className: 'preedit-row' }, [
+        h('span', { className: 'preedit-label' }, ['拼']),
+        h('span', { className: 'preedit-text' }, ['xiao jiao nang']),
+        h('span', { className: 'preedit-comment' }, ['小胶囊']),
+      ])
     : null;
 
-  return h(
-    'div',
-    { className: 'weasel-panel' },
-    [
-      preedit,
-      h(
-        'div',
-        { className: 'candidate-row candidate-row-group' },
-        [
-          renderCandidate(1, '紧凑', true),
-          renderCandidate(2, '胶囊'),
-          renderCandidate(3, '样式'),
-          renderCandidate(4, '预览'),
-        ],
-      ),
-      h(
-        'div',
-        { className: 'panel-footer' },
-        [
-          h('span', { className: 'pager prev' }, ['◀']),
-          h('span', { className: 'hint' }, ['CapsLock 切换中英']),
-          h('span', { className: 'pager next' }, ['▶']),
-        ],
-      ),
-    ],
-  );
+  return h('div', { className: 'candidate-row candidate-row-group' }, [
+    renderCandidate(1, '紧凑', true),
+    renderCandidate(2, '胶囊'),
+    renderCandidate(3, '样式'),
+    renderCandidate(4, '预览'),
+  ]);
 }
 
 function renderCandidate(index: number, text: string, active = false) {
   const className = active ? 'candidate candidate-active' : 'candidate';
-  return h(
-    'span',
-    { className },
-    [h('em', {}, [String(index)]), h('span', {}, [text])],
-  );
+  return h('span', { className }, [h('em', {}, [String(index)]), h('span', {}, [text])]);
 }
 
 function buildModeStyleVariables(light: ThemeConfig, dark: ThemeConfig): string[] {
