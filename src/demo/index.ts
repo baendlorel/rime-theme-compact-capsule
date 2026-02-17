@@ -1,8 +1,9 @@
 import { execSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import pkgInfo from '../package.json';
 import { parse } from 'yaml';
+
+import pkgInfo from '../../package.json';
 
 type PatchMap = Record<string, unknown>;
 
@@ -275,8 +276,8 @@ function renderStaticCard(theme: ThemeConfig, layout: LayoutConfig, flags: Rende
 
   const name = escapeHtml(theme.name);
   const id = escapeHtml(theme.id);
-  const hlColor = theme.hilitedCandidateBackColor.toUpperCase();
-  const backColor = theme.backColor.toUpperCase();
+  const hlColor = theme.hilitedCandidateBackColor.toUpperCase().replace(/CC$/g, '');
+  const backColor = theme.backColor.toUpperCase().replace(/CC$/g, '');
 
   return `<article class="theme-card static-card" style="${style}">
   <header class="theme-head">
