@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>小胶囊主题预览</title>
+  <style>
+    :root {
+      --page-top: #f4f7fb;
+      --page-bottom: #e8eef7;
+      --text-main: #0f172a;
+      --text-sub: #4b5d79;
+      --card-border: rgba(148, 163, 184, 0.32);
+      --card-bg: #142b590f;
+      --card-shadow: rgba(15, 23, 42, 0.08);
+      --btn-bg: #1d4ed8;
+      --btn-bg-hover: #1e40af;
+      --btn-fg: #f8fafc;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 28px;
+      background:
+        radial-gradient(circle at 8% 2%, #ffffff 0%, rgba(255, 255, 255, 0.28) 26%, rgba(255, 255, 255, 0) 52%),
+        linear-gradient(155deg, var(--page-top), var(--page-bottom));
+      font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      color: var(--text-main);
+    }
+
+    .hero {
+      margin-bottom: 18px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--text-sub);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(255, 255, 255, 0.75);
+      color: #1e293b;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(30, 41, 59, 0.15);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .btn-primary {
+      border-color: rgba(29, 78, 216, 0.45);
+      background: var(--btn-bg);
+      color: var(--btn-fg);
+      box-shadow: 0 10px 18px rgba(29, 78, 216, 0.26);
+    }
+
+    .btn-primary:hover {
+      background: var(--btn-bg-hover);
+    }
+
+    .floating-controls {
+      position: sticky;
+      top: 12px;
+      z-index: 20;
+      display: flex;
+      justify-content: flex-start;
+      gap: 8px;
+      margin-bottom: 10px;
+      pointer-events: none;
+    }
+
+    .floating-controls .btn {
+      pointer-events: auto;
+    }
+
+    .section {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.26);
+      background: rgba(255, 255, 255, 0.55);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.2;
+    }
+
+    .section-head p {
+      margin: 4px 0 0;
+      color: var(--text-sub);
+      font-size: 12px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 14px;
+      align-items: start;
+    }
+
+    .sub-block {
+      margin-top: 12px;
+    }
+
+    .sub-block h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: #334155;
+    }
+
+    .theme-card {
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      box-shadow: 0 10px 22px var(--card-shadow);
+      display: grid;
+      gap: 8px;
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .theme-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 26px rgba(15, 23, 42, 0.14);
+    }
+
+    .theme-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .theme-name {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .theme-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.42);
+      background: rgba(241, 245, 249, 0.72);
+      font-family: "JetBrains Mono", "Consolas", monospace;
+      font-size: 11px;
+      line-height: 1.2;
+    }
+
+    .badge-id {
+      color: #334155;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .badge-color {
+      color: #64748b;
+    }
+
+    .candidate-row {
+      display: flex;
+      align-items: stretch;
+      padding: 6px;
+    }
+
+    .candidate-row-group {
+      gap: 0;
+      overflow-x: auto;
+      justify-content: center;
+    }
+
+    .candidate {
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 0;
+      padding: 4px 10px;
+      background: var(--candidate-bg, rgba(255, 255, 255, 0.62));
+      color: var(--candidate-text);
+      font-size: 13px;
+      line-height: 1;
+      white-space: nowrap;
+      border-radius: 0;
+      position: relative;
+    }
+
+    .candidate:first-child {
+      border-radius: var(--candidate-radius) 0 0 var(--candidate-radius);
+    }
+
+    .candidate:last-child {
+      border-radius: 0 var(--candidate-radius) var(--candidate-radius) 0;
+    }
+
+    .candidate em {
+      font-style: normal;
+      color: var(--label-text);
+      font-size: 12px;
+    }
+
+    .candidate-active {
+      padding: var(--hilite-padding-y) var(--hilite-padding-x);
+      background: var(--active-bg);
+      color: var(--active-text);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+      z-index: 1;
+    }
+
+    .candidate-active em {
+      color: var(--active-label);
+      font-weight: 700;
+    }
+
+    .empty {
+      margin: 0;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    body[data-mode="light"] .switch-card {
+      --panel-text: var(--panel-text-light);
+      --candidate-text: var(--candidate-text-light);
+      --comment-text: var(--comment-text-light);
+      --label-text: var(--label-text-light);
+      --panel-bg: var(--panel-bg-light);
+      --panel-border: var(--panel-border-light);
+      --panel-shadow: var(--panel-shadow-light);
+      --hilited-text: var(--hilited-text-light);
+      --hilited-bg: var(--hilited-bg-light);
+      --hilited-comment: var(--hilited-comment-light);
+      --hilited-label: var(--hilited-label-light);
+      --active-text: var(--active-text-light);
+      --active-bg: var(--active-bg-light);
+      --active-label: var(--active-label-light);
+      --nextpage: var(--nextpage-light);
+      --prevpage: var(--prevpage-light);
+      --candidate-bg: rgba(255, 255, 255, 0.62);
+    }
+
+    body[data-mode="dark"] .switch-card {
+      --panel-text: var(--panel-text-dark);
+      --candidate-text: var(--candidate-text-dark);
+      --comment-text: var(--comment-text-dark);
+      --label-text: var(--label-text-dark);
+      --panel-bg: var(--panel-bg-dark);
+      --panel-border: var(--panel-border-dark);
+      --panel-shadow: var(--panel-shadow-dark);
+      --hilited-text: var(--hilited-text-dark);
+      --hilited-bg: var(--hilited-bg-dark);
+      --hilited-comment: var(--hilited-comment-dark);
+      --hilited-label: var(--hilited-label-dark);
+      --active-text: var(--active-text-dark);
+      --active-bg: var(--active-bg-dark);
+      --active-label: var(--active-label-dark);
+      --nextpage: var(--nextpage-dark);
+      --prevpage: var(--prevpage-dark);
+      --candidate-bg: rgba(76, 85, 93, 0.8);
+    }
+
+    @media (max-width: 760px) {
+      body {
+        padding: 14px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .theme-name {
+        font-size: 14px;
+      }
+
+      .hero h1 {
+        font-size: 20px;
+      }
+
+      .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .floating-controls {
+        top: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body data-mode="light">
+  <section class="hero">
+    <h1>小胶囊系列样式预览</h1>
+    <p>本页面从构建后的 patch 文件解析全部 schema，自动区分 TS 生成的可切换明暗主题和手写 YAML 主题。</p>
+    <p>总计 {{schema_count}} 套主题 · TS 生成 {{ts_generated_count}} · 手写 YAML {{custom_yaml_count}} · 预编辑 {{inline_preedit}} · 生成时间 {{generated_at}}</p>
+  </section>
+
+  <div class="floating-controls">
+    <a class="btn btn-primary" href="{{latest_release_url}}" target="_blank" rel="noopener noreferrer">前往 Release 下载</a>
+    <a class="btn" href="{{release_url}}" target="_blank" rel="noopener noreferrer">查看所有发布</a>
+    <button class="btn" type="button" data-mode-toggle>切换到暗色</button>
+  </div>
+
+
+  <section class="section switchable-section">
+    <div class="section-head">
+      <div>
+        <h2>TS 生成主题（可切换明暗）</h2>
+      </div>
+    </div>
+    <div class="grid">
+      {{switchable_cards}}
+    </div>
+    {{ts_single_block}}
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2>手写 YAML 主题</h2>
+      </div>
+    </div>
+    <div class="grid">
+      {{custom_cards}}
+    </div>
+    {{custom_single_block}}
+  </section>
+
+  <script>
+    (() => {
+      const root = document.body;
+      const modeButton = document.querySelector('[data-mode-toggle]');
+      if (!root || !modeButton) return;
+
+      let mode = root.getAttribute('data-mode') || 'light';
+
+      const render = () => {
+        root.setAttribute('data-mode', mode);
+        modeButton.textContent = mode === 'light' ? '切换到暗色' : '切换到亮色';
+      };
+
+      modeButton.addEventListener('click', () => {
+        mode = mode === 'light' ? 'dark' : 'light';
+        render();
+      });
+
+      render();
+    })();
+  </script>
+</body>
+
+</html>

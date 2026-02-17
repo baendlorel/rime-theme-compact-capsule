@@ -1,24 +1,12 @@
-# 小狼毫（Rime）输入法样式——紧凑胶囊系列
+# 小狼毫（Rime）输入法样式——小胶囊系列
 
 ## 主题颜色
 
-rime 输入法使用的主题，整体呈一个紧凑的胶囊形状，分亮色暗色两种
-有如下若干种颜色
+rime 输入法使用的主题，整体呈一个紧凑的胶囊形状
 
-- 紧凑胶囊红（分亮色暗色）
-- 紧凑胶囊黄（分亮色暗色）
-- 紧凑胶囊紫（分亮色暗色）
-- 紧凑胶囊橙（分亮色暗色）
-- 紧凑胶囊绿（分亮色暗色）
-- 紧凑胶囊蓝（分亮色暗色）
+## 在线预览
 
-## 示例图片
-
-以下是主题的示例图片：
-
-<p align="center">
-  <img src="assets/compact-capsule-examples.png" alt="紧凑胶囊系列效果图" width="50%">
-</p>
+- GitHub Pages: <https://baendlorel.github.io/rime-theme-compact-capsule/>
 
 ## 使用方法
 
