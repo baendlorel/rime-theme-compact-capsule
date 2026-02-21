@@ -4,6 +4,7 @@ import { parse } from 'yaml';
 
 import { COMPACT_CAPSULE_SCHEMAS, SCHEMA_NAMES } from './schemas';
 import { schemaToYaml } from './schema-to-yaml';
+import { DARK_SPECIAL_SHADOW_ALPHA, scaleShadowAlpha } from './shadow';
 import pkgInfo from '../package.json';
 import { demo } from './demo';
 
@@ -18,15 +19,14 @@ const DARK_THEME_COLORS = {
   hilited_label_color: '0x6C757D80',
 };
 
-const DARK_SPECIAL_SHADOW_ALPHA = 0.22;
-
 const loadSpecialSchemas = () => {
   const content = readFileSync(join(import.meta.dirname, 'special-schemas.yaml'), 'utf-8');
   const parsed = toRecord(parse(content));
   const merged: YamlRecord = {};
 
   for (const [key, rawSchema] of Object.entries(parsed)) {
-    const schema = toRecord(rawSchema);
+    const raw = toRecord(rawSchema);
+    const schema = key.endsWith('_dark') ? raw : toLightSpecialSchema(raw);
     merged[key] = schema;
 
     const darkKey = key.endsWith('_dark') ? key : `${key}_dark`;
@@ -52,6 +52,17 @@ const toDarkSpecialSchema = (schema: YamlRecord): YamlRecord => {
     name: name.endsWith('「暗」') ? name : `${name}「暗」`,
     ...(darkShadowColor ? { shadow_color: darkShadowColor } : {}),
     ...DARK_THEME_COLORS,
+  };
+};
+
+const toLightSpecialSchema = (schema: YamlRecord): YamlRecord => {
+  const boostedShadowColor = scaleShadowColorAlpha(schema.shadow_color);
+  if (!boostedShadowColor) {
+    return schema;
+  }
+  return {
+    ...schema,
+    shadow_color: boostedShadowColor,
   };
 };
 
@@ -126,6 +137,15 @@ const toShadowColorWithAlpha = (value: unknown, alpha: number): string => {
     .toUpperCase()
     .padStart(2, '0');
   return `${color.slice(0, 8)}${alphaHex}`;
+};
+
+const scaleShadowColorAlpha = (value: unknown): string => {
+  const color = normalizeColorValue(value);
+  if (!color) {
+    return '';
+  }
+  const alpha = parseInt(color.slice(8), 16) / 255;
+  return toShadowColorWithAlpha(color, scaleShadowAlpha(alpha));
 };
 
 const escapeSingleQuoted = (value: string): string => value.replaceAll("'", "''");

@@ -1,8 +1,6 @@
 import { BS, rgba, setAlpha } from './colors';
 import { Theme, SchemaConfig, BORDER_COLOR, NAME_PRFIX, ID_PRFIX, AUTHOR } from './schemas';
-
-const LIGHT_SHADOW_ALPHA = 0.34;
-const DARK_SHADOW_ALPHA = 0.16;
+import { DARK_SHADOW_ALPHA, LIGHT_SHADOW_ALPHA } from './shadow';
 
 const themeColors = (theme: Theme) => {
   let darkId = '';
