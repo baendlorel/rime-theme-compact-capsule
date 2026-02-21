@@ -161,15 +161,13 @@
       border-radius: 14px;
       border: 1px solid var(--card-border);
       background: var(--card-bg);
-      box-shadow: 0 10px 22px var(--card-shadow);
       display: grid;
       gap: 8px;
-      transition: transform 0.16s ease, box-shadow 0.16s ease;
+      transition: transform 0.16s ease;
     }
 
     .theme-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 14px 26px rgba(15, 23, 42, 0.14);
     }
 
     .theme-head {
@@ -218,23 +216,25 @@
     .candidate-row {
       display: flex;
       align-items: stretch;
-      padding: 6px;
+      width: 100%;
+      padding: 0;
       border-radius: var(--corner-radius);
-      border: 1px solid var(--panel-border);
       background: var(--panel-bg);
       box-shadow: 0 6px 14px var(--panel-shadow);
     }
 
     .candidate-row-group {
       gap: 0;
-      overflow-x: auto;
-      justify-content: center;
+      overflow: hidden;
+      justify-content: stretch;
     }
 
     .candidate {
+      flex: 1 1 0;
       min-height: 30px;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
       border: 0;
       padding: 4px 10px;
@@ -397,7 +397,6 @@
         const panelBgAttr = mode === 'light' ? 'data-bg-light' : 'data-bg-dark';
         const activeBgAttr = mode === 'light' ? 'data-active-bg-light' : 'data-active-bg-dark';
         const panelShadowAttr = mode === 'light' ? 'data-shadow-light' : 'data-shadow-dark';
-        const cardShadowAttr = mode === 'light' ? 'data-card-shadow-light' : 'data-card-shadow-dark';
 
         document.querySelectorAll('[data-bg-light][data-bg-dark]').forEach((node) => {
           if (!(node instanceof HTMLElement)) return;
@@ -414,12 +413,6 @@
         document.querySelectorAll('[data-shadow-light][data-shadow-dark]').forEach((node) => {
           if (!(node instanceof HTMLElement)) return;
           const shadow = node.getAttribute(panelShadowAttr);
-          if (shadow) node.style.boxShadow = shadow;
-        });
-
-        document.querySelectorAll('[data-card-shadow-light][data-card-shadow-dark]').forEach((node) => {
-          if (!(node instanceof HTMLElement)) return;
-          const shadow = node.getAttribute(cardShadowAttr);
           if (shadow) node.style.boxShadow = shadow;
         });
       };

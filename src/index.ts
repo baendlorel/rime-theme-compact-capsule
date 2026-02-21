@@ -18,6 +18,8 @@ const DARK_THEME_COLORS = {
   hilited_label_color: '0x6C757D80',
 };
 
+const DARK_SPECIAL_SHADOW_ALPHA = 0.22;
+
 const loadSpecialSchemas = () => {
   const content = readFileSync(join(import.meta.dirname, 'special-schemas.yaml'), 'utf-8');
   const parsed = toRecord(parse(content));
@@ -44,9 +46,11 @@ const loadSpecialSchemas = () => {
 
 const toDarkSpecialSchema = (schema: YamlRecord): YamlRecord => {
   const name = String(schema.name || '');
+  const darkShadowColor = toShadowColorWithAlpha(schema.shadow_color, DARK_SPECIAL_SHADOW_ALPHA);
   return {
     ...schema,
     name: name.endsWith('「暗」') ? name : `${name}「暗」`,
+    ...(darkShadowColor ? { shadow_color: darkShadowColor } : {}),
     ...DARK_THEME_COLORS,
   };
 };
@@ -111,6 +115,19 @@ const normalizeColorValue = (value: unknown): string => {
   return '';
 };
 
+const toShadowColorWithAlpha = (value: unknown, alpha: number): string => {
+  const color = normalizeColorValue(value);
+  if (!color) {
+    return '';
+  }
+  const clamped = Math.max(0, Math.min(1, alpha));
+  const alphaHex = Math.round(clamped * 255)
+    .toString(16)
+    .toUpperCase()
+    .padStart(2, '0');
+  return `${color.slice(0, 8)}${alphaHex}`;
+};
+
 const escapeSingleQuoted = (value: string): string => value.replaceAll("'", "''");
 
 const main = () => {
@@ -133,6 +150,9 @@ const main = () => {
     margin_x: 0
     margin_y: 0
     border_width: 0
+    shadow_radius: 6
+    shadow_offset_x: 2
+    shadow_offset_y: 2
   'style/horizontal': true
   'style/inline_preedit': true
     `;

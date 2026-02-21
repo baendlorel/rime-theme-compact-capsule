@@ -279,13 +279,7 @@ function resolveLayout(config: PatchMap): LayoutConfig {
 }
 
 function renderSwitchableCard(pair: ThemePair, layout: LayoutConfig, flags: RenderFlags): string {
-  const lightCardShadow = buildCardBoxShadow(pair.light.shadowColor);
-  const darkCardShadow = buildCardBoxShadow(pair.dark.shadowColor);
-  const style = [
-    ...buildModeStyleVariables(pair.light, pair.dark),
-    ...buildLayoutVariables(layout),
-    `box-shadow:${lightCardShadow}`,
-  ].join(';');
+  const style = [...buildModeStyleVariables(pair.light, pair.dark), ...buildLayoutVariables(layout)].join(';');
 
   const name = escapeHtml(pair.light.name);
   const id = escapeHtml(pair.id);
@@ -299,8 +293,6 @@ function renderSwitchableCard(pair: ThemePair, layout: LayoutConfig, flags: Rend
     {
       className: 'theme-card switch-card',
       style,
-      'data-card-shadow-light': lightCardShadow,
-      'data-card-shadow-dark': darkCardShadow,
     },
     [
       h('header', { className: 'theme-head' }, [
@@ -327,11 +319,7 @@ function renderSwitchableCard(pair: ThemePair, layout: LayoutConfig, flags: Rend
 }
 
 function renderStaticCard(theme: ThemeConfig, layout: LayoutConfig, flags: RenderFlags): string {
-  const style = [
-    ...buildSingleStyleVariables(theme),
-    ...buildLayoutVariables(layout),
-    `box-shadow:${buildCardBoxShadow(theme.shadowColor)}`,
-  ].join(';');
+  const style = [...buildSingleStyleVariables(theme), ...buildLayoutVariables(layout)].join(';');
 
   const name = escapeHtml(theme.name);
   const id = escapeHtml(theme.id);
@@ -425,10 +413,6 @@ function buildLayoutVariables(layout: LayoutConfig): string[] {
     `--hilite-padding-x:${layout.hilitePaddingX}px`,
     `--hilite-padding-y:${layout.hilitePaddingY}px`,
   ];
-}
-
-function buildCardBoxShadow(color: string): string {
-  return `0 10px 22px ${color},0 18px 34px ${color}`;
 }
 
 function buildPanelBoxShadow(color: string): string {

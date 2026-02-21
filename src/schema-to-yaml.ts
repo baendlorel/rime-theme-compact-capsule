@@ -1,12 +1,8 @@
 import { BS, rgba, setAlpha } from './colors';
-import {
-  Theme,
-  SchemaConfig,
-  BORDER_COLOR,
-  NAME_PRFIX,
-  ID_PRFIX,
-  AUTHOR,
-} from './schemas';
+import { Theme, SchemaConfig, BORDER_COLOR, NAME_PRFIX, ID_PRFIX, AUTHOR } from './schemas';
+
+const LIGHT_SHADOW_ALPHA = 0.34;
+const DARK_SHADOW_ALPHA = 0.16;
 
 const themeColors = (theme: Theme) => {
   let darkId = '';
@@ -52,17 +48,11 @@ const themeColors = (theme: Theme) => {
 
 export const schemaToYaml = (s: SchemaConfig) => {
   const _toYaml = (theme: Theme) => {
-    const shadowColor = setAlpha(s.hilitedCandidateBackColor, theme === Theme.DARK ? 0.46 : 0.34);
-    const {
-      darkId,
-      darkName,
-      text,
-      back,
-      candidateText,
-      hilitedLabel,
-      hilitedText,
-      hilitedBack,
-    } = themeColors(theme);
+    const shadowColor = setAlpha(
+      s.hilitedCandidateBackColor,
+      theme === Theme.DARK ? DARK_SHADOW_ALPHA : LIGHT_SHADOW_ALPHA,
+    );
+    const { darkId, darkName, text, back, candidateText, hilitedLabel, hilitedText, hilitedBack } = themeColors(theme);
     return `  'preset_color_schemes/${ID_PRFIX}${s.id}${darkId}':
     author: '${AUTHOR}'
     color_format: rgba
