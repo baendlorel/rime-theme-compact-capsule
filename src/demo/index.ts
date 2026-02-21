@@ -43,10 +43,13 @@ type RenderFlags = {
 type PanelColorConfig = {
   panelBackColor: string;
   activeBackColor: string;
+  panelShadowColor: string;
   panelBackColorLight?: string;
   panelBackColorDark?: string;
   activeBackColorLight?: string;
   activeBackColorDark?: string;
+  panelShadowColorLight?: string;
+  panelShadowColorDark?: string;
 };
 
 type ThemePair = {
@@ -276,7 +279,13 @@ function resolveLayout(config: PatchMap): LayoutConfig {
 }
 
 function renderSwitchableCard(pair: ThemePair, layout: LayoutConfig, flags: RenderFlags): string {
-  const style = [...buildModeStyleVariables(pair.light, pair.dark), ...buildLayoutVariables(layout)].join(';');
+  const lightCardShadow = buildCardBoxShadow(pair.light.shadowColor);
+  const darkCardShadow = buildCardBoxShadow(pair.dark.shadowColor);
+  const style = [
+    ...buildModeStyleVariables(pair.light, pair.dark),
+    ...buildLayoutVariables(layout),
+    `box-shadow:${lightCardShadow}`,
+  ].join(';');
 
   const name = escapeHtml(pair.light.name);
   const id = escapeHtml(pair.id);
@@ -285,28 +294,44 @@ function renderSwitchableCard(pair: ThemePair, layout: LayoutConfig, flags: Rend
   const lightColor = pair.light.hilitedCandidateBackColor.toUpperCase().replace(/CC$/g, '');
   const darkColor = pair.dark.hilitedCandidateBackColor.toUpperCase().replace(/CC$/g, '');
 
-  return h('article', { className: 'theme-card switch-card', style }, [
-    h('header', { className: 'theme-head' }, [
-      h('h3', { className: 'theme-name' }, [name.replace('小胶囊', '')]),
-      h('code', { className: 'badge badge-id' }, [id]),
-    ]),
-    renderPanel(flags, {
-      panelBackColor: pair.light.backColor,
-      activeBackColor: pair.light.hilitedCandidateBackColor,
-      panelBackColorLight: pair.light.backColor,
-      panelBackColorDark: pair.dark.backColor,
-      activeBackColorLight: pair.light.hilitedCandidateBackColor,
-      activeBackColorDark: pair.dark.hilitedCandidateBackColor,
-    }),
-    h('div', { className: 'theme-badges' }, [
-      h('span', { className: 'badge badge-color' }, [`面板 L ${lightPanelColor} / D ${darkPanelColor}`]),
-      h('span', { className: 'badge badge-color' }, [`高亮 L ${lightColor} / D ${darkColor}`]),
-    ]),
-  ]).toString();
+  return h(
+    'article',
+    {
+      className: 'theme-card switch-card',
+      style,
+      'data-card-shadow-light': lightCardShadow,
+      'data-card-shadow-dark': darkCardShadow,
+    },
+    [
+      h('header', { className: 'theme-head' }, [
+        h('h3', { className: 'theme-name' }, [name.replace('小胶囊', '')]),
+        h('code', { className: 'badge badge-id' }, [id]),
+      ]),
+      renderPanel(flags, {
+        panelBackColor: pair.light.backColor,
+        activeBackColor: pair.light.hilitedCandidateBackColor,
+        panelShadowColor: pair.light.shadowColor,
+        panelBackColorLight: pair.light.backColor,
+        panelBackColorDark: pair.dark.backColor,
+        activeBackColorLight: pair.light.hilitedCandidateBackColor,
+        activeBackColorDark: pair.dark.hilitedCandidateBackColor,
+        panelShadowColorLight: pair.light.shadowColor,
+        panelShadowColorDark: pair.dark.shadowColor,
+      }),
+      h('div', { className: 'theme-badges' }, [
+        h('span', { className: 'badge badge-color' }, [`面板 L ${lightPanelColor} / D ${darkPanelColor}`]),
+        h('span', { className: 'badge badge-color' }, [`高亮 L ${lightColor} / D ${darkColor}`]),
+      ]),
+    ],
+  ).toString();
 }
 
 function renderStaticCard(theme: ThemeConfig, layout: LayoutConfig, flags: RenderFlags): string {
-  const style = [...buildSingleStyleVariables(theme), ...buildLayoutVariables(layout)].join(';');
+  const style = [
+    ...buildSingleStyleVariables(theme),
+    ...buildLayoutVariables(layout),
+    `box-shadow:${buildCardBoxShadow(theme.shadowColor)}`,
+  ].join(';');
 
   const name = escapeHtml(theme.name);
   const id = escapeHtml(theme.id);
@@ -321,6 +346,7 @@ function renderStaticCard(theme: ThemeConfig, layout: LayoutConfig, flags: Rende
     renderPanel(flags, {
       panelBackColor: theme.backColor,
       activeBackColor: theme.hilitedCandidateBackColor,
+      panelShadowColor: theme.shadowColor,
     }),
     h('div', { className: 'theme-badges' }, [
       h('span', { className: 'badge badge-color' }, [`面板 ${backColor}`]),
@@ -340,12 +366,16 @@ function renderPanel(flags: RenderFlags, colors: PanelColorConfig) {
 
   const rowAttrs: Record<string, unknown> = {
     className: 'candidate-row candidate-row-group',
-    style: `background-color:${colors.panelBackColor}`,
+    style: `background-color:${colors.panelBackColor};box-shadow:${buildPanelBoxShadow(colors.panelShadowColor)}`,
   };
 
   if (colors.panelBackColorLight && colors.panelBackColorDark) {
     rowAttrs['data-bg-light'] = colors.panelBackColorLight;
     rowAttrs['data-bg-dark'] = colors.panelBackColorDark;
+  }
+  if (colors.panelShadowColorLight && colors.panelShadowColorDark) {
+    rowAttrs['data-shadow-light'] = buildPanelBoxShadow(colors.panelShadowColorLight);
+    rowAttrs['data-shadow-dark'] = buildPanelBoxShadow(colors.panelShadowColorDark);
   }
 
   return h('div', rowAttrs, [
@@ -395,6 +425,14 @@ function buildLayoutVariables(layout: LayoutConfig): string[] {
     `--hilite-padding-x:${layout.hilitePaddingX}px`,
     `--hilite-padding-y:${layout.hilitePaddingY}px`,
   ];
+}
+
+function buildCardBoxShadow(color: string): string {
+  return `0 10px 22px ${color},0 18px 34px ${color}`;
+}
+
+function buildPanelBoxShadow(color: string): string {
+  return `0 8px 18px ${color},0 2px 6px ${color}`;
 }
 
 function getThemeBaseId(theme: ThemeConfig): string {

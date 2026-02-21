@@ -1,4 +1,4 @@
-import { BS, rgba } from './colors';
+import { BS, rgba, setAlpha } from './colors';
 import {
   Theme,
   SchemaConfig,
@@ -52,6 +52,7 @@ const themeColors = (theme: Theme) => {
 
 export const schemaToYaml = (s: SchemaConfig) => {
   const _toYaml = (theme: Theme) => {
+    const shadowColor = setAlpha(s.hilitedCandidateBackColor, theme === Theme.DARK ? 0.46 : 0.34);
     const {
       darkId,
       darkName,
@@ -69,6 +70,7 @@ export const schemaToYaml = (s: SchemaConfig) => {
     text_color: ${text}
     back_color: ${back}
     border_color: ${BORDER_COLOR}
+    shadow_color: ${shadowColor}
     candidate_text_color: ${candidateText}
     hilited_label_color: ${hilitedLabel}
     hilited_text_color: ${hilitedText}

@@ -396,6 +396,8 @@
       const applyInlineBackgrounds = () => {
         const panelBgAttr = mode === 'light' ? 'data-bg-light' : 'data-bg-dark';
         const activeBgAttr = mode === 'light' ? 'data-active-bg-light' : 'data-active-bg-dark';
+        const panelShadowAttr = mode === 'light' ? 'data-shadow-light' : 'data-shadow-dark';
+        const cardShadowAttr = mode === 'light' ? 'data-card-shadow-light' : 'data-card-shadow-dark';
 
         document.querySelectorAll('[data-bg-light][data-bg-dark]').forEach((node) => {
           if (!(node instanceof HTMLElement)) return;
@@ -407,6 +409,18 @@
           if (!(node instanceof HTMLElement)) return;
           const color = node.getAttribute(activeBgAttr);
           if (color) node.style.backgroundColor = color;
+        });
+
+        document.querySelectorAll('[data-shadow-light][data-shadow-dark]').forEach((node) => {
+          if (!(node instanceof HTMLElement)) return;
+          const shadow = node.getAttribute(panelShadowAttr);
+          if (shadow) node.style.boxShadow = shadow;
+        });
+
+        document.querySelectorAll('[data-card-shadow-light][data-card-shadow-dark]').forEach((node) => {
+          if (!(node instanceof HTMLElement)) return;
+          const shadow = node.getAttribute(cardShadowAttr);
+          if (shadow) node.style.boxShadow = shadow;
         });
       };
 
