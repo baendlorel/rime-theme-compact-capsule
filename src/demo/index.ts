@@ -40,6 +40,15 @@ type RenderFlags = {
   inlinePreedit: boolean;
 };
 
+type PanelColorConfig = {
+  panelBackColor: string;
+  activeBackColor: string;
+  panelBackColorLight?: string;
+  panelBackColorDark?: string;
+  activeBackColorLight?: string;
+  activeBackColorDark?: string;
+};
+
 type ThemePair = {
   id: string;
   light: ThemeConfig;
@@ -281,7 +290,14 @@ function renderSwitchableCard(pair: ThemePair, layout: LayoutConfig, flags: Rend
       h('h3', { className: 'theme-name' }, [name.replace('小胶囊', '')]),
       h('code', { className: 'badge badge-id' }, [id]),
     ]),
-    renderPanel(flags),
+    renderPanel(flags, {
+      panelBackColor: pair.light.backColor,
+      activeBackColor: pair.light.hilitedCandidateBackColor,
+      panelBackColorLight: pair.light.backColor,
+      panelBackColorDark: pair.dark.backColor,
+      activeBackColorLight: pair.light.hilitedCandidateBackColor,
+      activeBackColorDark: pair.dark.hilitedCandidateBackColor,
+    }),
     h('div', { className: 'theme-badges' }, [
       h('span', { className: 'badge badge-color' }, [`面板 L ${lightPanelColor} / D ${darkPanelColor}`]),
       h('span', { className: 'badge badge-color' }, [`高亮 L ${lightColor} / D ${darkColor}`]),
@@ -302,7 +318,10 @@ function renderStaticCard(theme: ThemeConfig, layout: LayoutConfig, flags: Rende
       h('h3', { className: 'theme-name' }, [name]),
       h('code', { className: 'badge badge-id' }, [id]),
     ]),
-    renderPanel(flags),
+    renderPanel(flags, {
+      panelBackColor: theme.backColor,
+      activeBackColor: theme.hilitedCandidateBackColor,
+    }),
     h('div', { className: 'theme-badges' }, [
       h('span', { className: 'badge badge-color' }, [`面板 ${backColor}`]),
       h('span', { className: 'badge badge-color' }, [`高亮 ${hlColor}`]),
@@ -310,7 +329,7 @@ function renderStaticCard(theme: ThemeConfig, layout: LayoutConfig, flags: Rende
   ]).toString();
 }
 
-function renderPanel(flags: RenderFlags) {
+function renderPanel(flags: RenderFlags, colors: PanelColorConfig) {
   const preedit = flags.inlinePreedit
     ? h('div', { className: 'preedit-row' }, [
         h('span', { className: 'preedit-label' }, ['拼']),
@@ -319,17 +338,37 @@ function renderPanel(flags: RenderFlags) {
       ])
     : null;
 
-  return h('div', { className: 'candidate-row candidate-row-group' }, [
-    renderCandidate(1, '小胶囊', true),
+  const rowAttrs: Record<string, unknown> = {
+    className: 'candidate-row candidate-row-group',
+    style: `background-color:${colors.panelBackColor}`,
+  };
+
+  if (colors.panelBackColorLight && colors.panelBackColorDark) {
+    rowAttrs['data-bg-light'] = colors.panelBackColorLight;
+    rowAttrs['data-bg-dark'] = colors.panelBackColorDark;
+  }
+
+  return h('div', rowAttrs, [
+    renderCandidate(1, '小胶囊', true, colors),
     renderCandidate(2, '样式'),
     renderCandidate(3, '预览'),
     renderCandidate(4, '测试'),
   ]);
 }
 
-function renderCandidate(index: number, text: string, active = false) {
+function renderCandidate(index: number, text: string, active = false, colors?: PanelColorConfig) {
   const className = active ? 'candidate candidate-active' : 'candidate';
-  return h('span', { className }, [h('em', {}, [String(index)]), h('span', {}, [text])]);
+  const attrs: Record<string, unknown> = { className };
+
+  if (active && colors) {
+    attrs.style = `background-color:${colors.activeBackColor}`;
+    if (colors.activeBackColorLight && colors.activeBackColorDark) {
+      attrs['data-active-bg-light'] = colors.activeBackColorLight;
+      attrs['data-active-bg-dark'] = colors.activeBackColorDark;
+    }
+  }
+
+  return h('span', attrs, [h('em', {}, [String(index)]), h('span', {}, [text])]);
 }
 
 function buildModeStyleVariables(light: ThemeConfig, dark: ThemeConfig): string[] {

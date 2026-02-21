@@ -393,9 +393,27 @@
 
       let mode = root.getAttribute('data-mode') || 'light';
 
+      const applyInlineBackgrounds = () => {
+        const panelBgAttr = mode === 'light' ? 'data-bg-light' : 'data-bg-dark';
+        const activeBgAttr = mode === 'light' ? 'data-active-bg-light' : 'data-active-bg-dark';
+
+        document.querySelectorAll('[data-bg-light][data-bg-dark]').forEach((node) => {
+          if (!(node instanceof HTMLElement)) return;
+          const color = node.getAttribute(panelBgAttr);
+          if (color) node.style.backgroundColor = color;
+        });
+
+        document.querySelectorAll('[data-active-bg-light][data-active-bg-dark]').forEach((node) => {
+          if (!(node instanceof HTMLElement)) return;
+          const color = node.getAttribute(activeBgAttr);
+          if (color) node.style.backgroundColor = color;
+        });
+      };
+
       const render = () => {
         root.setAttribute('data-mode', mode);
         modeButton.textContent = mode === 'light' ? '切换到暗色' : '切换到亮色';
+        applyInlineBackgrounds();
       };
 
       modeButton.addEventListener('click', () => {
