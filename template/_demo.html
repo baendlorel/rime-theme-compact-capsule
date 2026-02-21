@@ -219,6 +219,10 @@
       display: flex;
       align-items: stretch;
       padding: 6px;
+      border-radius: var(--corner-radius);
+      border: 1px solid var(--panel-border);
+      background: var(--panel-bg);
+      box-shadow: 0 6px 14px var(--panel-shadow);
     }
 
     .candidate-row-group {
@@ -234,7 +238,7 @@
       gap: 6px;
       border: 0;
       padding: 4px 10px;
-      background: var(--candidate-bg, rgba(255, 255, 255, 0.62));
+      background: transparent;
       color: var(--candidate-text);
       font-size: 13px;
       line-height: 1;
@@ -293,7 +297,6 @@
       --active-label: var(--active-label-light);
       --nextpage: var(--nextpage-light);
       --prevpage: var(--prevpage-light);
-      --candidate-bg: rgba(255, 255, 255, 0.62);
     }
 
     body[data-mode="dark"] .switch-card {
@@ -313,7 +316,6 @@
       --active-label: var(--active-label-dark);
       --nextpage: var(--nextpage-dark);
       --prevpage: var(--prevpage-dark);
-      --candidate-bg: rgba(76, 85, 93, 0.8);
     }
 
     @media (max-width: 760px) {
